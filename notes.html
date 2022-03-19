@@ -22,6 +22,226 @@
                 
                 Before the colon, we have the property, and after the colon, the value. 
                 CSS properties have different allowable values, depending on which property is being specified
+                
+                <h2>Getting started</h2>
+
+                * There are three different ways to apply CSS to an HTML document: using a link element (external style sheet), 
+                    inside style tag (internal style sheet) and with style tag in html element (inline css declaration).
+                
+                * Targeting an element selector — this is a selector that directly matches an HTML element name 
+                
+                * p,li {
+                    color: red;
+                }
+
+                * The browser is adding some default styling to html elements to make it readable you can override that as well 
+                    with your custom css, e.g. to remove default bullet points from list items, 
+                    li {
+                        list-style-type: bengali;
+                    }
+                    all html element that has display type of list-item can be targetted and their style can be changed as above. 
+                
+                * select a subset of element without changing the other element of same type; in such case use class attribute.
+                    
+                    <li class="special">Item special</li>
+
+                    and style it by,
+                    .special{
+                        color: red;
+                    } 
+                    class selector starts with fullstp "."
+                    any element whose class attribute is set to value "special" will take effect of the above css rule. 
+                
+                * Select element more specifically, 
+                    li.special{
+                        color: red;
+                    }
+                    target any li element that has a class of special, 
+                    In this case any other element with class specials will be affected by above css rule.
+                
+                * It is sometimes best to bypass the element and refer to the class, unless you know that you want to create 
+                    some special rules for one element alone, and perhaps want to make sure they are not applied to other things
+                
+                * Descendant combinator, which takes the form of a space " " between two other selectors.
+                    li em {
+                        color: rebeccapurple;
+                    }
+                    select the em element which is(/are) nested inside (Descendant of) li.
+
+                * Adjacent sibling combinator, place a plus sign "+" between two selector, 
+                    h1 + p {
+                        font-weight: bold;
+                    }
+                    styles the first paragraph that comes directly after a top level heading h1. 
+                
+                * Styling based on state, 
+                    a:link , a:hover, a:visited {
+                        
+                    }
+                    link should always be underlined. 
+                
+                * Combining selector and combinator
+                    /* selects any <span> that is inside a <p>, which is inside an <article>  */
+                        article p span { ... }
+                        
+                    /* selects any <p> that comes directly after a <ul>, which comes directly after an <h1>  */
+                    h1 + ul + p { ... }
+
+                    /* You can combine multiple types together, too. Try adding the following into your code: */
+                    body h1 + p .special {
+                        color: yellow;
+                        background-color: black;
+                        padding: 5px;
+                    }
+                    
+                    This will style any element with a class of special, which is inside a <p>, which comes just after an <h1>, 
+                        which is inside a <body>.
+                
+
+                <h2> How CSS is structured </h2>
+                    
+                    * CSS resolves conflicting styling rules by two basic rule such as "The Cascading rule" and "The specificity rule"
+
+                    * CSS styling rule that appear later in stylesheet replaces earlier conflicting styling rule;
+                        this is called "The Cascading rule"
+                    
+                    * CSS styling rule with a class selector will replace styling rules that are applied only with element selectors. 
+                        this is called "the specificity rule"
+                    
+                    * Basic structure, 
+
+                        h1 {                                                                |selector   |
+                            color: blue;            | css declaration |                                 | CSS Rulesets/Rules
+                            font-weight: bold;      | css declaration | css declaration block           | e.g. h1 rule
+                            background-color:white; | css declaration |                                 | 
+                        }                                                                               |
+                    
+                    * Avoid using inline css and only when neccessary use internal if possible or inline othewise
+                    
+                    * The CSS engine calculates which declarations apply to every single element of a page.
+
+                    * CSS properties and values are case-insensitive. The property and value in a property-value 
+                        pair are separated by a colon (:).
+                    
+                    * If a property is unknown, or if a value is not valid for a given property, 
+                        the declaration is processed as invalid. It is completely ignored by the browser's CSS engine.
+                    
+                    *  In CSS (and other web standards), it has been agreed that US spelling is the standard where there 
+                        is language variation or uncertainty. For example, colour should be spelled color, as colour will not work.
+                    
+                    * functions such as "calc()" can be used as a value to "width" property; simple maths can be performed using it. 
+                    
+                    * "transform" property also takes other functions as value such as "rotate(0.8turn)"
+
+                    * CSS @at-rules defines what CSS should perform and how it should behave. e.g, 
+                        @include 'style2.css'
+
+                        @media (max-width: 800px){
+                            body{
+                                background-color: blue;
+                            }
+                        }
+                    
+                    * Shorthand properties set several values at once. Properties such as font, background, padding, 
+                        border, margin etc,
+                    
+                        In 4-value shorthands like padding and margin, the values are applied
+                        in the order top, right, bottom, left (clockwise from the top). 
+
+                        There are also other shorthand types, for example 2-value shorthands, which set padding/margin
+                        for top/bottom, then left/right
+
+                        - padding: 10px 15px 15px 5px;
+                        is equivalent to these four lines of code:
+
+                        padding-top: 10px;
+                        padding-right: 15px;
+                        padding-bottom: 15px;
+                        padding-left: 5px;
+                        
+                        
+                        - background: red url(bg-graphic.png) 10px 10px repeat-x fixed;
+                        is equivalent to these five lines:
+
+                        background-color: red;
+                        background-image: url(bg-graphic.png);
+                        background-position: 10px 10px;
+                        background-repeat: repeat-x;
+                        background-attachment: fixed;
+                    
+                    * A value not specified in CSS shorthand reverts to its initial value. This means an omission 
+                        in CSS shorthand can override previously set values. Also any value that is invalid for a property 
+                        in a shorthand will be passed on to the next property and skipped property's value will be resetted to 
+                        their respective intial value.
+                    
+                    * /* CSS comments */
+
+                    * White spaces in CSS is also ignored by the browser. 
+
+                    * Though property values can be separated by space but there should not be any space between property name. 
+
+                <h2>How CSS works</h2>
+
+                    * How a page is rendered by the browser, 
+                        1. Fetch the HTML.
+                        2. Convert HTML to DOM.
+                        3. Fetch all linked resources such as video, img, audio and CSS. Javascript is loaded later.
+                        4. Parse CSS and sort them in different buckets based on their selector types. Figure out which
+                            rules should be applied to which node in DOM and attaches style to them. (Render Tree)
+                        5. The render tree is laid out in the structure it should appear in after the rules 
+                            have been applied to it.
+                        6. The visual display is showed on the screen.
+
+                    * Browser just ignores CSS declaration that is not understood and move on to next declaration.
+
+                    * Also if a selector is not valid in a list of selectors browser will just ignore the whole ruleset. 
+
+                <h2>Cascade and Inheritance</h2>
+                    
+                    * Cascade: When two rules with same specificity are intend to apply to the same element then 
+                        rule that comes later while parsing and interpretation will be effective overriding the other
+                        that came earlier
+                    
+                    * Inheritance: Some element inherits specified value that is set to their parent's element and some do not. 
+
+                    * Specificity: In a situation where two conflicting rules with different selectors that applies 
+                        to the same element then the rule which has more specific selector will be effective.
+                    
+                    * Inline css > id selector > element selector > parent element selector
+
+                    * Not Inherited properties: width, margin, padding, border; 
+                    
+                    * Inherited properties: 
+
+                    * Controlling Inheritance
+                        CSS provides four special universal property values for controlling inheritance. 
+                        Every CSS property accepts these values.
+                        
+                        - Inherit: Sets the property value applied to a selected element to be the same as that of its parent element. 
+                            Effectively, this "turns on inheritance".
+                        
+                        - Initial: Sets the property value applied to a selected element to the initial value of that property.
+                            The initial value of a CSS property is its default value, as listed in its definition table in the 
+                            specification. 
+                            
+                            The usage of the initial value depends on whether a property is inherited or not:
+                                For inherited properties, the initial value is used on the root element only, 
+                                as long as no specified value is supplied.
+
+                                For non-inherited properties, the initial value is used on all elements, 
+                                as long as no specified value is supplied.
+
+                            You can explicitly specify the initial value by using the initial keyword.
+                            Note: The initial value should not be confused with the value specified by the browser's style sheet.
+
+                        - Unset: Resets the property to its natural value, which means that if the property 
+                            is naturally inherited it acts like inherit, otherwise it acts like initial.
+                        
+                        - Revert: Acts like unset in many cases, however will revert the property to the browser's default 
+                            styling rather than the defaults applied to that property.
+                        
+                        
+
             </p>
         </article>
         <aside>
