@@ -1,6 +1,18 @@
-/* Create your test CSS here */
+body {
+    color: green;
+}
+          
+.my-class-1 a {
+    color: inherit;
+}
 
-p {
-    color: red;
-  }
-  
+
+.my-class-2 a {
+    color: initial;
+}
+
+          
+.my-class-3 a {
+    color: revert;
+}
+    
