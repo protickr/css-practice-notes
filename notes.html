@@ -537,7 +537,7 @@
                     Enables us to show a image in the background of a box. 
                     By default, the large image is not scaled down to fit the box, so we only see a small corner of it, 
                     whereas the small image is tiled to fill the box.
-                
+                * Background also includes the padding around the content box.
                 * If you specify a background color in addition to a background image then the image displays on top of the color.
 
                 * background-repeat: 
@@ -1162,8 +1162,22 @@
             
             
             <h2>Styling Lists</h2>
+            
+                list-style: list-style-type list-style-image list-style-position; 
+                is a shorthand for
+                list-style-type: none, disc, square, decimal, georgian, circle, upper-roman, lower-alpha; // and so on 
+                list-style-image: url("image.ext"), none; 
+                list-style-position: inside, outside;
                 
+                <li start="4" reversed>List item</li>
+                <li type="a">List item</li>
+                <li value="10">List item</li>
                 
+                * maintian vertical rhythm and horizontal spacing according to other elments around lists. 
+                * use background-* properties to implement custom image as bullet points with list items so that you will be
+                    able to better control the background image. 
+                * use list-style-type fallback while using an image as bullet. 
+                * make dt definition term bold
 
 
         <aside>

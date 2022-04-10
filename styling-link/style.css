@@ -1,0 +1,44 @@
+html {
+    font-size: 10px;
+    font-family: Helvatica, Arial, sans-serif;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+ul, ol, p, dl {
+    font-size: 1.5rem;
+}
+
+li, p {
+    line-height: 1.5; 
+}
+
+dd, dt {
+    line-height: 1.5;
+}
+
+dt {
+    font-weight: bold; 
+}
+
+ul {
+    padding-left: 2rem;
+    list-style-type: none; 
+}
+
+ul li {
+    padding-left: 2rem;
+    background-image: url("star.svg");
+    background-position: 0 0;
+    background-size: 1.6rem 1.6rem;
+    background-repeat: no-repeat;
+}
+
+ol {
+    list-style-type: upper-roman;
+    list-style-position: inside;
+    padding-left: 2rem;
+}
+
