@@ -312,7 +312,7 @@
                     - if attribute value is exact or followed by a hyphen       div[lang|="es"]     { }     // selects all div if their "lang" attribute is set to "es" or "es-"
                     - if attribute value starts with query value                li[class^="box-"]   { }     // selects all list items if their "class" attribute value starts with "box-"
                     - if attribute value ends with query value                  li[class$="-box"]   { }     // if class value ends with "-box" 
-                    - if query value is present anywhere within attribute value li[class*="box"]    { }     // if class value contains "box" within any of its class values. 
+                    - if query value is present anywhere within attribute value li[class*="box"]    { }     // if class value contains "box" within any of its class values, e.g., sample-box-one
                     - case insensitive attribute value selector                 li[class="box" i]   { }     // matches if class value is set to either "box" or "BOX"
                     - case sensitive attribute value selector                   li[class="BOX" s]   { }     // selects only if class="BOX"
                 
@@ -506,6 +506,11 @@
                         padding-right: 
                         padding-bottom: 
                         padding-left: 
+
+                        padding: 1em; // all four sides
+                        padding: 1em 2em; // top and bottom 1em, right and left 2em
+                        padding: 1em 2em 3em; // top 1em, right and left 2em, bottom 3em
+                        
                     
 
                     * The Box Model and Inline boxes 
@@ -1179,7 +1184,172 @@
                 * use list-style-type fallback while using an image as bullet. 
                 * make dt definition term bold
 
+            
 
+
+            <h2>Styling Links</h2>
+
+                Links states
+                    link: a link with a destination not just a named anchor. 
+                    visited: link that is already in browser history. 
+                    focus: a link that is focused by keyboard (by pressing tab) or other similar technology. 
+                    hover:  when a link is hovered by a user's mouse pointer. 
+                    active: when a link is clicked. 
+                
+                Default Styles
+                    Links are underlined
+                    Unvisited links are blue
+                    Visited links are purple
+                    Hovered links make mouse pointer change to a little hand icon
+                    Focused links have outline around them 
+
+                You can style link anyway you want but remember to keep the following characteristics to them,
+                    1. Use underlining for links, but not for other things. If you don't want to underline links, 
+                        at least highlight them in some other way.
+                    2. Make them react in some way when hovered/focused, and in a slightly different way when activated.
+
+                You can manipulate default link styling by manipulating the following properties, 
+                    color:
+                    cursor: pointer
+                    outline: same as border but doesnt take up space in the box rather just sits on top over the background
+
+                always maintain the order in which you might style links as link styles build up on previous states of it i.e., 
+                    Love Fears HAte 
+                    a, a:link, a:visited, a:focus, a:hover, a:active
+
+                Note: 
+                    1. The underline has been created using border-bottom, not text-decoration — some people prefer this because 
+                        the former has better styling options than the latter. It's also drawn a bit lower so it doesn't cut across 
+                        the descenders of the word being underlined (e.g., the tails on g and y).
+
+                    2. The border-bottom value has been set as 1px solid, with no color specified. Doing this makes the border adopt 
+                        the same color as the element's text, which is useful in cases like this where the text is a different color 
+                        in each case.
+
+                    3. Finally, a:active is used to give the links an inverted color scheme while they are being activated, 
+                        to make it clear something important is happening!
+
+                Navigation bar with unordered list
+                    - spaces/line breaks in between inline block elements create spaces on the page, just like the spaces in between words;
+                    - li is a block element.
+                
+
+                
+                
+                <h2>Web Fonts and text styling with custom fonts</h2>
+
+                    You can use the font stack to specify preferred fonts, followed by web-safe alternatives, 
+                    followed by the default system font. However, this increases your workload because of the 
+                    testing required to make sure that your designs work with each font.
+
+                        p {
+                            font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+                        }
+
+
+                    Web Fonts
+                        CSS allows you to specify font files, available on the web, to be downloaded along with your 
+                        website as it's accessed. This means that any browser supporting this CSS feature can display 
+                        the fonts you've specifically chosen
+
+                        @font-face {
+                            font-family: "myfont"
+                            src: url("myfont.woff2");
+                        }
+
+                        html {
+                            font-family: "myfont", sans-serif;
+                        }
+
+
+                        1. All major browsers support WOFF/WOFF2 (Web Open Font Format versions 1 and 2).
+
+                        2. WOFF2 supports the entirety of the TrueType and OpenType specifications, including variable fonts, 
+                            chromatic fonts, and font collections.
+
+                        3. The order in which you list font files is important. If you provide the browser with a list of multiple 
+                            font files to download, the browser will choose the first font file it's able to use. 
+                            That's why the format you list first should be the preferred format — that is, WOFF2 — with the older 
+                            formats listed after that. Browsers that don't understand one format will then fall back to the next 
+                            format in the list.
+
+                        4. If you need to work with legacy browsers, you should provide EOT (Embedded Open Type), 
+                            TTF (TrueType Font), and SVG web fonts for download. This article explains how to use the Fontsquirrel 
+                            Webfont Generator to generate the required files.
+
+
+                    using custom font 
+                        chose custom font and download ttf from Fontsquirrel or other font distributor 
+                        upload and generate woff, woff2, eot, svg and ttf format to support all browsers
+                    
+                        @font-face {
+                            font-family: 'croissant';
+                            src: url('fonts/webfont/croissantone-regular-webfont.woff2') format('woff2'),
+                                 url('fonts/webfont/croissantone-regular-webfont.woff') format('woff'),
+                                 url('fonts/webfont/croissantone-regular-webfont.ttf') format('truetype'),
+                                 url('fonts/webfont/croissantone-regular-webfont.svg#croissant_oneregular') format('svg'), 
+                                 url('fonts/webfont/croissantone-regular-webfont.eot?#iefix') format('embedded-opentype');
+                            font-weight: normal;
+                            font-style: normal;
+                          
+                          }
+
+                    also check online font service such as google fonts
+                    font-variant, font-stretch, unicode-range 
+                    and variable fonts
+
+                
+                <h2>Css Layout: Normal Flow</h2>
+
+                    What is normal flow ?
+
+                        The way all elements in a webpage are positioned when you have not done anything to change their
+                        position is called normal flow. 
+
+                        since normal flow is designed to make a readable document, by starting in this way you're working 
+                        with the document rather than struggling against it as you make changes to the layout.
+
+                        you can change how elements behave either by adjusting their position in normal flow or by removing 
+                        them from it altogether. Starting with a solid, well-structured document that's readable in normal 
+                        flow is the best way to begin any webpage
+                    
+                    Block Element:
+
+                        By default, a block level element's content fills the available inline space of the parent element 
+                        containing it and grows along the block dimension to accommodate its content
+
+                        By default, block-level elements are laid out in the block flow direction, which is based on the parent's 
+                        writing mode (initial: horizontal-tb). Each element will appear on a new line below the last one, with 
+                        each one separated by whatever margin that's been specified.
+
+                    Inline Element: 
+
+                        The size of Inline elements is just the size of their content. You can't set width or height on 
+                        inline elements — they just sit inside the content of block level elements
+                        
+                        Inline elements behave differently. They don't appear on new lines; instead, they all sit on the same 
+                        line along with any adjacent (or wrapped) text content as long as there is space for them to do so 
+                        inside the width of the parent block level element. If there isn't space, then the overflowing content 
+                        will move down to a new line.
+
+                        You can make an inline element block by display:block or inline-block and set width or height to it but
+                        that doesn't make them nest another block level elements in them. 
+
+                    Margin collapsing 
+                        If two adjacent elements both have a margin set on them and the two margins touch, the larger of 
+                        the two remains and the smaller one disappears.
+
+                
+                
+                
+                <h2>Flexible Box Layouts</h2>
+                    
+                    Flexbox is a one-dimensional layout method for arranging items in rows or columns. Items flex (expand) 
+                    to fill additional space or shrink to fit into smaller spaces.
+
+                
+
+                    
         <aside>
 
         </aside>
