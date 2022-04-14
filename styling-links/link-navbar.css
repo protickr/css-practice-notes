@@ -1,0 +1,45 @@
+body, html {
+    margin: 0; 
+    font-family: sans-serif;
+}
+
+ul {
+    padding: 0; 
+    width: 100%;
+    background: rgb(72,70,97);
+background: linear-gradient(90deg, rgba(72,70,97,1) 8%, rgba(84,212,172,0.8547794117647058) 100%, rgba(0,212,255,1) 100%);
+}
+
+li {
+    display: inline;
+}
+
+a {
+    text-decoration: none; 
+    outline: none; 
+    display: inline-block; 
+    line-height: 3; 
+    background-color: turquoise;
+    color: white; 
+    width: 19.8%; 
+    margin-right: 0.25%;
+    text-align: center;
+    color: white;
+}
+
+ul li:last-child a {
+    margin-right: 0;
+}
+
+a:link, a:visited, a:focus {
+    background: turquoise;
+  }
+  
+  a:hover {
+    background: #FEB139;
+  }
+  
+  a:active {
+    background: #F6F54D;
+    color: black;
+  }

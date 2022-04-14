@@ -1,0 +1,60 @@
+/* Custom font face  */
+@font-face {
+  font-family: 'abhaya';
+  src: url('fonts/webfont/abhayalibre-regular-webfont.woff2') format('woff2'),
+       url('fonts/webfont/abhayalibre-regular-webfont.woff') format('woff'),
+       url('fonts/webfont/abhayalibre-regular-webfont.ttf') format('truetype'),
+       url('fonts/webfont/abhayalibre-regular-webfont.svg#abhaya_libreregular') format('svg'),
+       url('fonts/webfont/abhayalibre-regular-webfont.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'croissant';
+  src: url('fonts/webfont/croissantone-regular-webfont.woff2') format('woff2'),
+       url('fonts/webfont/croissantone-regular-webfont.woff') format('woff'),
+       url('fonts/webfont/croissantone-regular-webfont.ttf') format('truetype'),
+       url('fonts/webfont/croissantone-regular-webfont.svg#croissant_oneregular') format('svg'), 
+       url('fonts/webfont/croissantone-regular-webfont.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+/* General setup */
+
+html {
+    font-size: 10px;
+    margin: 0;
+    font-family: sans-serif;
+  }
+  
+  body {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Typography */
+  
+  h1 {
+    font-size: 3.2rem;
+    font-family: croissant, sans-serif;
+  }
+  
+  h2 {
+    font-size: 2.4rem;
+    font-family: croissant, sans-serif;
+  }
+  
+  p {
+    font-size: 1.7rem;
+    line-height: 1.6;
+    word-spacing: 0.6rem;
+    font-family: abhaya, sans-serif;
+  }
