@@ -1344,11 +1344,188 @@
                 
                 <h2>Flexible Box Layouts</h2>
                     
-                    Flexbox is a one-dimensional layout method for arranging items in rows or columns. Items flex (expand) 
-                    to fill additional space or shrink to fit into smaller spaces.
+                    The Flexible Box Module, usually referred to as Flexbox, is a one-dimensional layout method for arranging 
+                    items in rows or columns. Items flex (expand) to fill additional space or shrink to fit into smaller spaces.
 
-                
+                    Flexible Box: 
+                        If we set "display: flex" to a contianer/parent element then all its children will become flexible boxes 
+                        The flex parent/container element will behave as a block element with respect to the other element on 
+                        the web page. 
+                        Also, you can set the parent container to "dispaly: inline-flex", in that case it's children
+                        becomes flex items or flexible boxes but the parent container itself will behave as an inline element with 
+                        respect to other elements on that web page.
 
+                    The Flex Model: 
+                        The main axis is the axis running in the direction the flex items are laid out in (for example, 
+                            as rows across the page, or columns down the page.) The start and end of this axis are called 
+                            the main start and main end.
+
+                        The cross axis is the axis running perpendicular to the direction the flex items are laid out in. 
+                            The start and end of this axis are called the cross start and cross end.
+
+                        The parent element that has display: flex set on it is called the flex container.
+
+                        The items laid out as flexible boxes inside the flex container are called flex items
+
+
+                    Flex Direction 
+                        In which direction flex-items or flex boxes are laid out in; 
+                        which direction the main axes run 
+                        
+                        flex-direction: row (default), column, row-reverse, column-reverse; 
+                        
+                        also, row-reverse and column-reverse will alter the start and end of main and cross axis respectively. 
+
+                        flex-direction does not alter the way the flex items are laid out, Flex items will always be laid out 
+                        along the main axis; flex-direction selects the main axis and the cross axis is set perpendicular to that 
+                        automatically. 
+
+                        
+                    Flex wrap 
+                        When you have a fixed width or height in your layout that eventually your flexbox children 
+                        will overflow their container, breaking the layout.
+                        
+                        flex-wrap: nowrap (default), wrap, wrap-reverse; // to flex container 
+                        flex: 200px; // to flex items/boxes.
+                        in case of a flex wrap, consider each flex line as a separate flex container as flex-grow and flex-shrink 
+                        will not depend on other flex lines. 
+
+
+                    "flex-flow" shorthand 
+                        it is a shorthand for flex-direction and flex-wrap ; 
+                        flex-flow: row wrap; 
+
+
+                    The flex items or flexboxes will match height in the block direction / cross axis with the tallest flex item and 
+                    will stretch in the main axis/ flex / inline direction to cover whole width of the parent container. 
+
+
+                    Flexible sizing of flex items
+                        flex: non-negative integer value that indicates proportion of space that will be alotted to it with respect to
+                                other flex items. 
+
+                        suppose, total width of the viewport is 930px and total spare width available in the flex 
+                        container is 900px after all padding and margins are set, then if flex: 1 is set, then all flex items will 
+                        be given a total width of 300px each
+                        you can translate that principle to logical values or if flex direction is set to column. 
+
+                        Also height of a flex item is determined by the content conatained in it. 
+
+                        you can set a specific flex item to have a certain proportion of space different from its siblings e.g., 
+
+                        article { 
+                            flex: 1; // all flex items will be given equal portion of space
+                        }
+
+                        article:nth-of-type(3) {
+                            flex: 2; // the third flex item will be given twice the space of the other flex items. 
+                        }
+
+                        if last two declarations were used with 3 flex items then, 
+                            there will be 4 equal portion 
+                            1 portion would be given to first two felx items each and 
+                            2 portions would be given to the third flex item.
+
+
+                    Minimum Flex size 
+                        article {
+                            flex: 2 200px; 
+                        }
+                        article:nth-of-type(3) {
+                            flex: 1 200p;
+                        }
+
+                        each flex item will be given minum 200px space after that all available spare spaces will be shared among
+                        all flex items
+
+
+                    Flex items alignment
+                        align-items: stretch (default), center, flex-start, flex-end; // along cross axis Y
+                        justify-content: flex-start (default), flex-end, center, space-around, space-between // along main axis X
+                        these two css properties should be used by selecting the flex-container.
+                    
+                        you can also override align-items with align-self and justify-content with justify-self by selecting
+                        specific flex items elements.
+
+
+                    Flex item ordering 
+                        By default, all flex items have an order value of 0.
+                        Flex items with higher specified order values will appear later in the display order 
+                            than items with lower order values.
+                        Flex items with the same order value will appear in their source order.
+                        You can set negative order values to make items appear earlier than items whose value is 0
+
+
+                    Flexbox nesting 
+                        can be nested; for that you need to set "display: flex" to a flex item which intends to nest 
+                        other flex items; initially all flexboxes or flex items are set to display: block; 
+                    
+
+                    "flex" shorthand 
+                        is a shorthand for flex-grow, flex-shrink and flex-basis
+
+
+                    flex-grow: Sets the flex grow factor of a flex item, accroding to which that item will be allotted aditional
+                                space from free positive space
+
+
+                    flex-shrink: Sets the flex shrink factor of a flex item, according to which that item will be shrinked in
+                                    case of negative free space. Only shrinks upto "min-contnet" size - 
+                                    the size that they become if they take advantage of any soft wrapping opportunities 
+                                    available to them
+                        Note: The flex shrink factor is multiplied by the flex base size when distributing negative space. 
+                        This distributes negative space in proportion to how much the item is able to shrink, so that e.g. 
+                        a small item won't shrink to zero before a larger item has been noticeably reduced."
+
+
+                    flex-basis: Sets the initial main size of a flex item. 
+                                It sets the size of the content box unless otherwise set with box-sizing.
+
+                                Is flex-basis set to auto, and does the item have a width set ? If so, the size will be based on that width.
+                                Is flex-basis set to auto or content, If so, the size is based on the item size.
+                                Is flex-basis a length unit, but not zero? If so this is the size of the item.
+                                Is flex-basis set to 0? if so then the item size is not taken into consideration for the space-sharing calculation.
+
+                    *** it is advised against using flex longhand properties. 
+                        
+                    If we took all of the items and added up their widths (or heights if working in a column), 
+                    is that total less than the total width (or height) of the container? If so, 
+                    then you have positive free space and flex-grow comes into play.
+
+                    If we took all of the items and added up their widths (or heights if working in a column), 
+                    is that total more than the total width (or height) of the container? If so, you have negative 
+                    free space and flex-shrink comes into play.
+
+                    https://developer.mozilla.org/en-US/docs/Web/CSS/flex
+
+
+                    Setting flex: initial resets the item to the initial values of Flexbox. 
+                    This is the same as flex: 0 1 auto. In this case the value of flex-grow is 0, so items will not 
+                    grow larger than their flex-basis size. The value of flex-shrink is 1, so items can shrink if they 
+                    need to rather than overflowing. The value of flex-basis is auto. Items will either use any size 
+                    set on the item in the main dimension, or they will get their size from the content size.
+
+                    Using flex: auto is the same as using flex: 1 1 auto; everything is as with flex:initial but in this 
+                    case the items can grow and fill the container as well as shrink if required.
+
+                    Using flex: none will create fully inflexible flex items. It is as if you wrote flex: 0 0 auto. 
+                    The items cannot grow or shrink but will be laid out using flexbox with a flex-basis of auto.
+
+                    The shorthand you often see in tutorials is flex: 1 or flex: 2 and so on. This is as if you used flex: 1 1 0 
+                    or flex: 2 1 0 and so on, respectively. The items can grow and shrink from a flex-basis of 0.
+
+
+                    display: contents 
+                        The contents value of the display property is a new value that is described in the spec as follows:
+
+                        "The element itself does not generate any boxes, but its children and pseudo-elements still generate 
+                        boxes as normal. For the purposes of box generation and layout, the element must be treated as if it 
+                        had been replaced with its children and pseudo-elements in the document tree."
+
+                    gap between flex-items: 
+                        gap: row-gap column-gap; // on flex container
+                    
+                        
                     
         <aside>
 
