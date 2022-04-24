@@ -1496,6 +1496,9 @@
                     is that total more than the total width (or height) of the container? If so, you have negative 
                     free space and flex-shrink comes into play.
 
+                    *** Each new row (or column when working by column) is an independent flex line in the flex container. 
+                        Space distribution happens across the flex line.
+
                     https://developer.mozilla.org/en-US/docs/Web/CSS/flex
 
 
@@ -1525,7 +1528,291 @@
                     gap between flex-items: 
                         gap: row-gap column-gap; // on flex container
                     
+                    
+                    do I only need to control the layout by row or column – use a flexbox
+                    do I need to control the layout by row and column – use a grid
+
+
+                
+                <h2>CSS Grid</h2>
+                    
+                    A grid is a set of intersecting horizontal and vertical lines that creates a collection of small square areas
+                    that are called grid cells and each vertical series of grid cells are called column tracks and each horizontal
+                    series of grid cells are called row track. 
+
+                    In CSS we define a container area as a grid with 
+                        display: grid;
+                        or,
+                        display: inline-grid;
+
+                    and we define column and row track by, 
+                        grid-template-columns: column-track-size column-track-size column-track-size; 
+                        grid-template-rows: row-track-size row-track-size row-track-size; 
+
+                    above two properties create explicit grid tracks and implicit grid tracks are created when grid items are 
+                    created when items are placed into grid by auto placement algorithm
+
+                    For example a grid container contains three grid items and we defined 3 columns tracks and grid items are 
+                    placed into the grid according to column size but rows are automatically defined to contain grid items 
+                    according to grid-item's content sizing, the automatically defined row track is called implicit row track. 
+                    
+                        .container {
+                            display: grid; 
+                            grid-template-columns: 100px 200px 15%;              // 3 column tracks
+                            grid-template-rows: 100px 200px; // 2 row tracks     // total 6 grid cells
+
+                            gap: 10px 2em;                                       // row-gap column-gap
+                            grid-auto-flow: row;                                 // implicit grid track direction
+                            grid-auto-rows: 100px;                               // implicit row track 
+                        }
+
+                    * Flexible grid tracks and repeat function
+                        .container {
+                            display: grid; 
+                            grid-template-columns: repeat(3, 1fr);              // same as grid-template-columns: 1fr 1fr 1fr; 
+                        }
+                        // 1fr means 1 fraction of available space
+
+                    * Minimum and maximum size for a track
+                        grid-auto-rows: minmax(100px, auto);
+
+                    * As many columns as will fit
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+
+                            divide viewport width by 200px and decide total number of columns possible and create them
+                            allot the rest of the available space (that is smaller than 200px)
+                            among all columns according to ratio of 1fr each. 
+
+                        - auto-fill creates empty column tracks if space is available and do not collapse them
+                        - auto-fit also does the same but it will collapse the empty columns and gaps and allot them 
+                            to non empty columns 
+                        - both of these properties create explicit content tracks. 
                         
+                    * By default implicit grid tracks are auto sized by their content and you can not addres them by 
+                        grid line number and place content in them, contents are auto placed in them. 
+
+                    * To place grid item in the desired area of our grid we target the position with grid lines such as 
+                        column line and row line. We can also place grid items in our desired areas by grid-template-areas
+
+                    * When we define grid we define grid tracks not the lines, grid them gives us numbered lines, 
+                        grid line numbers start from 1 at the start of a line and also starts from -1 to -n from 
+                        the end of the line. 
+
+                    * when placing an item we target the line rather than track.
+
+                    * Grid item placement line properties
+                            grid-column-start: 
+                            grid-column-end: 
+                            grid-row-start: 
+                            grid-row-end: 
+
+                        shorthand for row and column line, 
+                            grid-column: start / end; 
+                            grid-row: start / end; 
+
+                        shorthand for grid-column and grid-row, 
+                            grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; 
+
+
+                    * By default grid area spans 1 track so you can omit the end value if you want to span 1 track from start. 
+                    
+                    * You can also use span value to denote start and end line for a grid item, 
+
+                        grid-column: span 3 / 4 
+                            // grid area will start from column line 4 and span 3 line upwards
+
+                        grid-row: 1 / span 3 
+                            // grid area will start from row line 1 and span 3 lines
+
+                    * Grid item positioning with grid template areas, 
+
+                        .container {
+                            display: grid; 
+
+                            // for item placement in layout and overall layout composition
+                            grid-template-areas: 
+                            "header header"
+                            "sidebar content"
+                            "footer footer";
+
+                            // to declare column tracks and sizes
+                            grid-template-columns: 1fr 2fr; 
+                        }
+
+                        header  {   grid-area: header;  }
+                        aside   {   grid-area: sidebar; }
+                        article {   grid-area: content; }
+                        footer  {   grid-area: footer;  }
+
+                        The rules for grid-template-areas are as follows:
+                            You need to have every cell of the grid filled.
+                            To span across two cells, repeat the name.
+                            To leave a cell empty, use a . (period).
+                            Areas must be rectangular — for example, you can't have an L-shaped area.
+                            Areas can't be repeated in different locations.
+                            The value of grid-template-areas must show a complete grid, otherwise it is invalid 
+                            (and the property is ignored).
+
+                    * Nesting grid 
+                        you can set a grid item as grid container and its children will be grid items
+                        but children will not inherit gap or content tracks from its parents. 
+                            display: grid; 
+                            grid-template-columns: repeat( 3, 1fr); 
+
+                    * Subgrid 
+                        set a grid item's container as, 
+                            display: grid;
+                            grid-template-columns: subgrid; 
+                        The nested grid will then use the parent grid tracks to layout items.
+
+                    * Multiple grid items can occupy same grid cells, in that case, the grid item that comes later in the source
+                        will come on top while rendering but in case you want to change the order you can use 
+                        z-index property on those grid items, items with higher z-index value will come on top.
+
+                    * "grid-tempalte" and "grid" shorthands
+
+                        Before using any shorthand it is worth remembering that shorthands not only enable 
+                        the setting of many properties in one go, they also act to reset things to their 
+                        initial values that you do not, or cannot set in the shorthand. 
+                        Therefore if you use a shorthand, be aware that it may reset things you have applied elsewhere.
+
+                        .wrapper {
+                                display: grid;
+                                grid-template:
+                                "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
+                                "sd sd sd main main main main main main" minmax(100px, auto)
+                                "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
+                                    / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+                            }
+
+                            .wrapper {
+                                display: grid;
+                                grid: "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
+                                "sd sd sd main main main main main main" minmax(100px, auto)
+                                "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
+                                / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+                            }
+
+
+                    * Implicit track direction and item order and packing style
+
+                        grid-auto-flow: row dense; 
+                            // implicit row tracks will be created to place items in grid 
+                            // and pack them densely overriding the source order.
+
+                        grid-tempalte-columns: 1fr 2fr 1fr; 
+
+                    * Grid and display: contents; 
+                        // same as flexbox; child items becomes grid items such that parent container vanishes
+                        
+                    * Naming grid lines while creating a grid
+
+                        you can denote line names with grid lines while creating grid but line name can not be identical to
+                        any css syntax and they do not need to be quoted. 
+
+                        grid line name must be enclosed in third brackets and you can also use multiple names for single grid line
+
+                        also if you append -start and -end after line names you can get implicit grid area and use that common 
+                        name to place grid items into the grid. e.g., "content" in the following example, 
+
+                            .wrapper {
+                                display: grid;
+                                grid-template-columns: [main-start] 1fr [content-start] 1fr [content-end] 1fr [main-end];
+                                grid-template-rows: [main-start] 100px [content-start] 100px [content-end] 100px [main-end];
+                            }
+
+                            .thing {
+                                grid-area: content;
+                            }
+
+                        We have seen how named lines create a named area, and this also works in reverse. Named template areas 
+                            create named lines that you can use to place your items, use grid inspector to experience that. 
+
+                        You can also use repeat() with track definition and line names and multiple lines can have same name. 
+
+                    
+                    * Box alignment in CSS Grid Layout 
+                        box alignment specification 3 
+
+                        - Two axis of grid layout 
+                            block axis 
+                            inline axis 
+
+
+                        - Aligns all grid items on the block axis, 
+                            align-items: auto
+                                        normal
+                                        start
+                                        end
+                                        center
+                                        stretch
+                                        baseline
+                                        first baseline
+                                        last baseline
+                            // meant to be used by selecting the grid container 
+                            // The align-items property sets the align-self property for all of the child grid items
+
+                        - Aligns individual grid item on the block axis,
+                            align-self: 
+
+
+                        - Justifying items on the inline axis
+                            justify-items: [same values as align-items] 
+                            justify-self: [same values as align-self]
+                            
+
+                        - The specification details that the default behavior in align-self is to stretch, except for 
+                            items which have an intrinsic aspect ratio, in this case they behave as start.
+                            The reason for this, is that if items with an aspect ratio are set to stretch, 
+                            this default would distort them.
+
+                        - Shorthand properties
+                            The place-items property is shorthand for align-items and justify-items.
+                            The place-self property is shorthand for align-self and justify-self.
+                            
+                        - Center an item in a grid area
+                            align-self: center; 
+                            justify-self: center; 
+
+                    
+                    * Grid alignment in Parent Container 
+                        If you have a situation where your grid tracks use an area that is smaller than the grid container, 
+                        then you can align the grid tracks themselves, inside that container. 
+                            place-content: align-content justify-content; 
+
+                        possible values, 
+                            normal start end center stretch space-around space-between space-evenly 
+                            baseline first baseline last baseline
+
+                        align-content: default is start 
+                        justify-content: 
+                        
+                    * Reordering and acessibility
+                        Any time you reorder things with grid layout – or with flexbox – you only perform visual reordering. 
+                        The underlying source is what controls things like text to speech, and the tab order of the document.
+
+                        keep the visual and document source order in sync 
+                        The key here is to keep testing, a very simple test is to tab around the document. Does that order 
+                        still make sense? Check that you do not end up leaping from the top to the bottom of the layout in 
+                        a peculiar way. If so that would be a sign that you need to address something about the layout.
+                    
+                        keep semantics in document source, you should not omit semantic elements to apply visual styles.
+
+                    * Gap 
+                        In terms of grid sizing, gaps act as if they were a regular grid track however nothing can be placed 
+                        into the gap. The gap acts as if the grid line at that location has gained extra size, so any grid 
+                        item placed after that line begins at the end of the gap.
+
+                        The row-gap and column-gap properties are not the only things that can cause tracks to space out. 
+                        Margins, padding, or the use of the space distribution properties in Box Alignment can all contribute 
+                        to the visible gap – therefore the row-gap and column-gap properties should not be seen as equal to 
+                        the "gutter size" unless you know that your design has not introduced any additional space with one 
+                        of these methods.
+
+                    * Floats and other legacy layout method's properties doesn't work on grid or flex items
+                        meaning in supported browsers grid and flex layout properties take precedence over other properties 
+                        for alignment and so on. 
+
                     
         <aside>
 
