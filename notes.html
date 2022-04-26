@@ -1949,8 +1949,109 @@
                             Note that z-index only accepts unitless index values; 
 
                     
+                <h2>Multi-Column Layout</h2>
+                    
+                    The multiple-column layout specification provides you with a method for laying content out in columns, 
+                    as you might see in a newspaper. This article explains how to use this feature.
 
+                    you can enable multiple column layout in a container element by either of the following, 
+                    1. 
+                        column-count: n // positive integer; browser will give you equally sized n number of columns
+
+                    2. 
+                        column-width: length units // e.g., 200px, 
+                        // browser will divide the container width by given width and give you most numer of columns
+                        // possible but if it is not evenly divisible, remainder width will be distributed to all columns
+
+                    
+                    styling the columns
+
+                        Changing the size of the gap between columns using the 
+                            column-gap: 10px; 
+
+                        Adding a rule between columns with 
+                            column-rule: column-rule-width column-rule-style column-rule-color; 
+                            // accepts same value as border; 
+
+                        you can not style columns individually
+
+                        Something to take note of is that the rule doesn't take up any width of its own. 
+                        It lies across the gap you created with column-gap. To make more space on either side of the rule, 
+                        you'll need to increase the column-gap size.
+
+                    span columns 
+                        column-span: none, all; // can not span some columns it is either all or none; 
+                    
+                    avoid fragmented box accross columns
+                        break-inside: avoid; 
+                        page-break-inside: avoid; 
+                        // add these properties to the box you want to be in once piece while rendered on a page. 
                 
+            
+            
+            
+                <h2>Responsive Design</h2>
+
+                    HTML is fundamentally responsive. If you create a web page containing text and resize the browser window, 
+                    or display the page on a device with a smaller screen, then the browser will automatically reflow the text 
+                    to fit the window. This is called a liquid layout.
+                    The problem with this layout, though, is that the site would look squashed on smaller screens 
+                    (as seen below) and have unreadably long line lengths on larger ones.
+
+                    The alternative is to create a fixed width layout, which sets elements to a fixed size in pixels.
+                    The problem with this approach is that you will get a horizontal scrollbar on screens smaller than 
+                    the site width (as seen below), and lots of white space at the edges of the design on larger screens.
+                    
+                    3 requirements for responsive web design
+                            1. fluid grid
+                            2. fluid images
+                            3. media query
+                            and also responsive typography may help 
+
+                    Media queries
+                        The points at which a media query is introduced, and the layout changed, are known as breakpoints.
+                        
+                        A common approach when using Media Queries is to create a simple single-column layout for narrow-screen 
+                        devices (e.g mobile phones), then check for larger screens and implement a multiple-column layout when 
+                        you know that you have enough screen width to handle it. This is often described as mobile first design.
+
+                    vw units with font-size 
+                        You should never set text using viewport units alone.
+                    
+                        There is a solution, and it involves using calc(). If you add the vw unit to a value set using a 
+                        fixed size such as ems or rems then the text will still be zoomable. Essentially, the vw unit 
+                        adds on top of that zoomed value:
+
+                        h1 {
+                          font-size: calc(1.5rem + 3vw);
+                        }
+
+                    viewport meta tag
+                        <meta name="viewport" content="width=device-width,initial-scale=1">
+                            sets mobile browsers viewport width to their device width and intial zoom scale to 100%
+                            So you should always include the above line of HTML in the head of your documents.
+
+                        There are other settings you can use with the viewport meta tag, however in general the above 
+                        line is what you will want to use.
+
+                        initial-scale: Sets the initial zoom of the page, which we set to 1.
+                        height: Sets a specific height for the viewport.
+                        minimum-scale: Sets the minimum zoom level.
+                        maximum-scale: Sets the maximum zoom level.
+                        user-scalable: Prevents zooming if set to no.
+
+                        You should avoid using minimum-scale, maximum-scale, and in particular setting user-scalable to no. 
+                        Users should be allowed to zoom as much or as little as they need to; preventing this causes 
+                        accessibility problems.
+
+                        @viewport should not be used. it is deprecated
+
+                    
+                    
+
+
+
+                        
         <aside>
 
         </aside>
