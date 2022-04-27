@@ -2048,7 +2048,74 @@
 
                     
                     
+                    
+                    <h2>Media Queries</h2>
 
+                    @media media-type and (media-feature-rule) {
+                        /* CSS rules go here */
+                      }
+
+                      1. media-type can be all, screen or print // it is optional, defaults to all if omitted
+                      2. media-featur-rule or media expression is acutally a conditional statement 
+                      3. css rules that will be applied if that media expression is satisfied
+
+
+                    media features Rules
+                      width, min-width, max-width, height, min-height, max-height: 200px; 
+                      orientation: landscape, portrait // by default desktop browser's orientation is landscape
+                      hover: hover, none 
+                        // if the user has the ability to hover over an element, which essentially means they are 
+                        // using some kind of pointing device; touchscreen and keyboard navigation does not hover.
+
+                        Also in Level 4 is the pointer media feature. This takes three possible values, none, fine and coarse. 
+                        A fine pointer is something like a mouse or trackpad. It enables the user to precisely target a small 
+                        area. A coarse pointer is your finger on a touchscreen. The value none means the user has no pointing 
+                        device; perhaps they are navigating with the keyboard only or with voice commands.
+
+                    complex media queries with logical operators
+                      
+                        and: 
+                            @media screen and (min-width: 600px) and (orientation: landscape) {
+                                body {
+                                    color: blue;
+                                }
+                            }
+                        
+                        or: 
+                            @media screen and (min-width: 600px), screen and (orientation: landscape) {
+                                body {
+                                    color: blue;
+                                }
+                            }
+                            // or denoted by comma in between conditions in case of media queries 
+
+                        not: 
+                            @media not all and (orientation: landscape) {
+                                body {
+                                    color: blue;
+                                }
+                            }
+
+                    Approach to design a responsive website 
+                        Choose your breakpoints depending on the following considerations 
+                        1. Make sure the webpage content is readable in small and large screens comfortably. 
+                        2. Your webpage visual representation is consistent accross different viewport sizes and elements are
+                            arranged in a logical order so it make sense to the viewer. 
+                        3. You can chose either mobile first or desktop first design approach but mobile first is the best 
+                            practice as it is rendered in a single column layout so you just have to arrange the source in a 
+                            logical order that best serves the user's interest. 
+
+                        
+                    Viewport meta tag 
+                        <meta name="viewport" content="width=device-width,initial-scale=1">
+                        use this line so that your website is properly rendered in mobile devices. 
+                        Stops mobile browsers from lying their viewport width. 
+
+                    
+                        
+                        
+
+                      
 
 
                         
