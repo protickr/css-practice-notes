@@ -5,15 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        main {
+            width: 900px;
+            margin: 0 auto;
+        }
+
+    </style>
 </head>
 <body>
     <header></header>
     <nav></nav>
     <main>
+        <pre>
         <article>
-
-
-
             <h1>CSS Notes</h1>
         
                 CSS or Cascading Style Sheets is a rule based language. 
@@ -1533,644 +1543,981 @@
                     do I need to control the layout by row and column – use a grid
 
 
-                
-                <h2>CSS Grid</h2>
-                    
-                    A grid is a set of intersecting horizontal and vertical lines that creates a collection of small square areas
-                    that are called grid cells and each vertical series of grid cells are called column tracks and each horizontal
-                    series of grid cells are called row track. 
-
-                    In CSS we define a container area as a grid with 
-                        display: grid;
-                        or,
-                        display: inline-grid;
-
-                    and we define column and row track by, 
-                        grid-template-columns: column-track-size column-track-size column-track-size; 
-                        grid-template-rows: row-track-size row-track-size row-track-size; 
-
-                    above two properties create explicit grid tracks and implicit grid tracks are created when grid items are 
-                    created when items are placed into grid by auto placement algorithm
-
-                    For example a grid container contains three grid items and we defined 3 columns tracks and grid items are 
-                    placed into the grid according to column size but rows are automatically defined to contain grid items 
-                    according to grid-item's content sizing, the automatically defined row track is called implicit row track. 
-                    
-                        .container {
-                            display: grid; 
-                            grid-template-columns: 100px 200px 15%;              // 3 column tracks
-                            grid-template-rows: 100px 200px; // 2 row tracks     // total 6 grid cells
-
-                            gap: 10px 2em;                                       // row-gap column-gap
-                            grid-auto-flow: row;                                 // implicit grid track direction
-                            grid-auto-rows: 100px;                               // implicit row track 
-                        }
-
-                    * Flexible grid tracks and repeat function
-                        .container {
-                            display: grid; 
-                            grid-template-columns: repeat(3, 1fr);              // same as grid-template-columns: 1fr 1fr 1fr; 
-                        }
-                        // 1fr means 1 fraction of available space
-
-                    * Minimum and maximum size for a track
-                        grid-auto-rows: minmax(100px, auto);
-
-                    * As many columns as will fit
-                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-
-                            divide viewport width by 200px and decide total number of columns possible and create them
-                            allot the rest of the available space (that is smaller than 200px)
-                            among all columns according to ratio of 1fr each. 
-
-                        - auto-fill creates empty column tracks if space is available and do not collapse them
-                        - auto-fit also does the same but it will collapse the empty columns and gaps and allot them 
-                            to non empty columns 
-                        - both of these properties create explicit content tracks. 
-                        
-                    * By default implicit grid tracks are auto sized by their content and you can not addres them by 
-                        grid line number and place content in them, contents are auto placed in them. 
-
-                    * To place grid item in the desired area of our grid we target the position with grid lines such as 
-                        column line and row line. We can also place grid items in our desired areas by grid-template-areas
-
-                    * When we define grid we define grid tracks not the lines, grid them gives us numbered lines, 
-                        grid line numbers start from 1 at the start of a line and also starts from -1 to -n from 
-                        the end of the line. 
-
-                    * when placing an item we target the line rather than track.
-
-                    * Grid item placement line properties
-                            grid-column-start: 
-                            grid-column-end: 
-                            grid-row-start: 
-                            grid-row-end: 
-
-                        shorthand for row and column line, 
-                            grid-column: start / end; 
-                            grid-row: start / end; 
-
-                        shorthand for grid-column and grid-row, 
-                            grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; 
-
-
-                    * By default grid area spans 1 track so you can omit the end value if you want to span 1 track from start. 
-                    
-                    * You can also use span value to denote start and end line for a grid item, 
-
-                        grid-column: span 3 / 4 
-                            // grid area will start from column line 4 and span 3 line upwards
-
-                        grid-row: 1 / span 3 
-                            // grid area will start from row line 1 and span 3 lines
-
-                    * Grid item positioning with grid template areas, 
-
-                        .container {
-                            display: grid; 
-
-                            // for item placement in layout and overall layout composition
-                            grid-template-areas: 
-                            "header header"
-                            "sidebar content"
-                            "footer footer";
-
-                            // to declare column tracks and sizes
-                            grid-template-columns: 1fr 2fr; 
-                        }
-
-                        header  {   grid-area: header;  }
-                        aside   {   grid-area: sidebar; }
-                        article {   grid-area: content; }
-                        footer  {   grid-area: footer;  }
-
-                        The rules for grid-template-areas are as follows:
-                            You need to have every cell of the grid filled.
-                            To span across two cells, repeat the name.
-                            To leave a cell empty, use a . (period).
-                            Areas must be rectangular — for example, you can't have an L-shaped area.
-                            Areas can't be repeated in different locations.
-                            The value of grid-template-areas must show a complete grid, otherwise it is invalid 
-                            (and the property is ignored).
-
-                    * Nesting grid 
-                        you can set a grid item as grid container and its children will be grid items
-                        but children will not inherit gap or content tracks from its parents. 
-                            display: grid; 
-                            grid-template-columns: repeat( 3, 1fr); 
-
-                    * Subgrid 
-                        set a grid item's container as, 
-                            display: grid;
-                            grid-template-columns: subgrid; 
-                        The nested grid will then use the parent grid tracks to layout items.
-
-                    * Multiple grid items can occupy same grid cells, in that case, the grid item that comes later in the source
-                        will come on top while rendering but in case you want to change the order you can use 
-                        z-index property on those grid items, items with higher z-index value will come on top.
-
-                    * "grid-tempalte" and "grid" shorthands
-
-                        Before using any shorthand it is worth remembering that shorthands not only enable 
-                        the setting of many properties in one go, they also act to reset things to their 
-                        initial values that you do not, or cannot set in the shorthand. 
-                        Therefore if you use a shorthand, be aware that it may reset things you have applied elsewhere.
-
-                        .wrapper {
-                                display: grid;
-                                grid-template:
-                                "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
-                                "sd sd sd main main main main main main" minmax(100px, auto)
-                                "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
-                                    / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
-                            }
-
-                            .wrapper {
-                                display: grid;
-                                grid: "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
-                                "sd sd sd main main main main main main" minmax(100px, auto)
-                                "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
-                                / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
-                            }
-
-
-                    * Implicit track direction and item order and packing style
-
-                        grid-auto-flow: row dense; 
-                            // implicit row tracks will be created to place items in grid 
-                            // and pack them densely overriding the source order.
-
-                        grid-tempalte-columns: 1fr 2fr 1fr; 
-
-                    * Grid and display: contents; 
-                        // same as flexbox; child items becomes grid items such that parent container vanishes
-                        
-                    * Naming grid lines while creating a grid
-
-                        you can denote line names with grid lines while creating grid but line name can not be identical to
-                        any css syntax and they do not need to be quoted. 
-
-                        grid line name must be enclosed in third brackets and you can also use multiple names for single grid line
-
-                        also if you append -start and -end after line names you can get implicit grid area and use that common 
-                        name to place grid items into the grid. e.g., "content" in the following example, 
-
-                            .wrapper {
-                                display: grid;
-                                grid-template-columns: [main-start] 1fr [content-start] 1fr [content-end] 1fr [main-end];
-                                grid-template-rows: [main-start] 100px [content-start] 100px [content-end] 100px [main-end];
-                            }
-
-                            .thing {
-                                grid-area: content;
-                            }
-
-                        We have seen how named lines create a named area, and this also works in reverse. Named template areas 
-                            create named lines that you can use to place your items, use grid inspector to experience that. 
-
-                        You can also use repeat() with track definition and line names and multiple lines can have same name. 
-
-                    
-                    * Box alignment in CSS Grid Layout 
-                        box alignment specification 3 
-
-                        - Two axis of grid layout 
-                            block axis 
-                            inline axis 
-
-
-                        - Aligns all grid items on the block axis, 
-                            align-items: auto
-                                        normal
-                                        start
-                                        end
-                                        center
-                                        stretch
-                                        baseline
-                                        first baseline
-                                        last baseline
-                            // meant to be used by selecting the grid container 
-                            // The align-items property sets the align-self property for all of the child grid items
-
-                        - Aligns individual grid item on the block axis,
-                            align-self: 
-
-
-                        - Justifying items on the inline axis
-                            justify-items: [same values as align-items] 
-                            justify-self: [same values as align-self]
-                            
-
-                        - The specification details that the default behavior in align-self is to stretch, except for 
-                            items which have an intrinsic aspect ratio, in this case they behave as start.
-                            The reason for this, is that if items with an aspect ratio are set to stretch, 
-                            this default would distort them.
-
-                        - Shorthand properties
-                            The place-items property is shorthand for align-items and justify-items.
-                            The place-self property is shorthand for align-self and justify-self.
-                            
-                        - Center an item in a grid area
-                            align-self: center; 
-                            justify-self: center; 
-
-                    
-                    * Grid alignment in Parent Container 
-                        If you have a situation where your grid tracks use an area that is smaller than the grid container, 
-                        then you can align the grid tracks themselves, inside that container. 
-                            place-content: align-content justify-content; 
-
-                        possible values, 
-                            normal start end center stretch space-around space-between space-evenly 
-                            baseline first baseline last baseline
-
-                        align-content: default is start 
-                        justify-content: 
-                        
-                    * Reordering and acessibility
-                        Any time you reorder things with grid layout – or with flexbox – you only perform visual reordering. 
-                        The underlying source is what controls things like text to speech, and the tab order of the document.
-
-                        keep the visual and document source order in sync 
-                        The key here is to keep testing, a very simple test is to tab around the document. Does that order 
-                        still make sense? Check that you do not end up leaping from the top to the bottom of the layout in 
-                        a peculiar way. If so that would be a sign that you need to address something about the layout.
-                    
-                        keep semantics in document source, you should not omit semantic elements to apply visual styles.
-
-                    * Gap 
-                        In terms of grid sizing, gaps act as if they were a regular grid track however nothing can be placed 
-                        into the gap. The gap acts as if the grid line at that location has gained extra size, so any grid 
-                        item placed after that line begins at the end of the gap.
-
-                        The row-gap and column-gap properties are not the only things that can cause tracks to space out. 
-                        Margins, padding, or the use of the space distribution properties in Box Alignment can all contribute 
-                        to the visible gap – therefore the row-gap and column-gap properties should not be seen as equal to 
-                        the "gutter size" unless you know that your design has not introduced any additional space with one 
-                        of these methods.
-
-                    * Floats and other legacy layout method's properties doesn't work on grid or flex items
-                        meaning in supported browsers grid and flex layout properties take precedence over other properties 
-                        for alignment and so on. 
-                
-                
-                
-                <h2>Floats</h2>
-                    
-                    The float property was introduced to allow web developers to implement simple layouts involving an 
-                    image floating inside a column of text, with the text wrapping around the left or right of it. 
-                    The kind of thing you might get in a newspaper layout.
-
-                    The element with the float set on it is taken out of the normal layout flow of the document and stuck to 
-                    the left or right (depending on float value) side of its parent container. 
-
-                    Any content that would come below the floated element in the normal layout flow will now wrap around 
-                    it instead, filling up the space to the opposite side of the float as far up as the top of the 
-                    floated element. There, it will stop.
-
-                        float: left , right; 
-
-                    if you want the following content from wrapping around the float or moving up you should clear it with, 
-                        clear: left, right, both; // on the following element
-                    
-                    if you have a tall float and a short paragraph, with a box wrapped around both elements, in that case 
-                    to clear following item you could use, 
-                        
-                        1. on the wrapper box
-
-                            .wrapper::after { 
-                                content: "";
-                                display: block;
-                                clear: both;
-                            }
-                            //clearfix hack
-
-                        2. 
-                            overflow: auto; // any value other than visible or clip 
-
-                            this creates a BFC - block formatting context which is like a mini layout inside your webpage 
-                            where all enclosed elements will be contained within it, however it has a problem in case of 
-                            overflow that might result in unexpected behaviour such as clip shadow or scrollbar
-
-                        3. 
-                            display: flow-root; 
-                            // sole purpose of this property value is to create a BFC without unintended consequences.
-
-                
-
-                <h2>Positioning</h2>
-
-                    Positioning allows to override the normal document flow. 
-                    position: static (default), relative, absolute, fixed; 
-
-                    static
-                        default positioning of an element on the webpage i.e., all elements in normal flow
-
-                    relative
-                        This is very similar to static positioning, except that once the positioned element has taken its 
-                        place in the normal flow, you can then modify its final position, including making it overlap 
-                        other elements on the page. 
-                        This means that it's relative to its original position within the parent element.
-                        Relative positioned element is not taken out of normal document flow. 
-
-                    absolute 
-                        absolute positioned elements are taken out of normal document flow, Instead, it sits on its own layer 
-                        separate from everything else and it is positioned relative to its containing element
-
-                        If no ancestor elements have their position property explicitly defined, 
-                        then by default all ancestor elements will have a static position. The result of this 
-                        is the absolutely positioned element will be contained in the initial containing block outside of the
-                        html element itself 
-
-                        it means that we can create isolated UI features that don't interfere with the layout of other elements 
-                        on the page. For example, popup information boxes, control menus, rollover panels, UI features that can 
-                        be dragged and dropped anywhere on the page, and so on.
-
-                    fixed 
-                        fixed positioning usually fixes an element in place relative to the visible portion of the viewport
-                        fixed positioned element is taken out of normal document flow
-                        you can create useful UI items that are fixed in place, like persistent navigation menus that are 
-                        always visible no matter how much the page scrolls.
-
-                    sticky
-                        it is a hybrid between relative and fixed position. It allows a positioned element to act like 
-                        it's relatively positioned until it's scrolled to a certain threshold (e.g., 10px from the top 
-                        of the viewport), after which it becomes fixed.
-                        Sticky elements are "sticky" relative to the nearest ancestor with a "scrolling mechanism",
-
-                    position specifier
-                        top: 
-                        bottom: 
-                        right: 
-                        left: 
-                        // defines offset from target elements position in length units such as px, % , mm etc. 
-                        margins still affect positioned elements. Margin collapsing doesn't, however.
-                        you can resize elements using these properties
-                    
-
-                    Identifying containing block
-                        If the position property is static, relative, or sticky, the containing block is formed by 
-                        the edge of the content box of the nearest ancestor element that is either a block container 
-                        (such as an inline-block, block, or list-item element) or establishes a formatting context 
-                        (such as a table container, flex container, grid container, or the block container itself).
-
-                        If the position property is absolute, the containing block is formed by the edge of the padding 
-                        box of the nearest ancestor element that has a position value other than static 
-                        (fixed, absolute, relative, or sticky).
-
-                        If the position property is fixed, the containing block is established by the viewport (in the 
-                        case of continuous media) or the page area (in the case of paged media).
-
-                        If the position property is absolute or fixed, the containing block may also be formed by the 
-                        edge of the padding box of the nearest ancestor element that has the following:
-                            A transform or perspective value other than none
-                            A will-change value of transform or perspective
-                            A filter value other than none or a will-change value of filter (only works on Firefox).
-                            A contain value of paint (e.g. contain: paint;)
-                            A backdrop-filter other than none (e.g. backdrop-filter: blur(10px);)
-
-                        Note: The containing block in which the root element (<html>) resides is a rectangle called 
-                            the initial containing block. It has the dimensions of the viewport (for continuous media) 
-                            or the page area (for paged media).
-
-
-                        z-index and visibility of overlapping elements
-                            Any positioned element take precedence over static positioned element in terms of visibility
-                            Any element that overlaps other element and comes later in document source, comes on top 
-                            
-
-                            "z-index" is a reference to the z-axis; 
-                            Web pages also have a z-axis: an imaginary line that 
-                            runs from the surface of your screen towards your face. z-index values affect where positioned 
-                            elements sit on that axis; positive values move them higher up the stack, negative values move 
-                            them lower down the stack. By default, positioned elements all have a z-index of auto, which 
-                            is effectively 0.
-
-                            Note that z-index only accepts unitless index values; 
-
-                    
-                <h2>Multi-Column Layout</h2>
-                    
-                    The multiple-column layout specification provides you with a method for laying content out in columns, 
-                    as you might see in a newspaper. This article explains how to use this feature.
-
-                    you can enable multiple column layout in a container element by either of the following, 
-                    1. 
-                        column-count: n // positive integer; browser will give you equally sized n number of columns
-
-                    2. 
-                        column-width: length units // e.g., 200px, 
-                        // browser will divide the container width by given width and give you most numer of columns
-                        // possible but if it is not evenly divisible, remainder width will be distributed to all columns
-
-                    
-                    styling the columns
-
-                        Changing the size of the gap between columns using the 
-                            column-gap: 10px; 
-
-                        Adding a rule between columns with 
-                            column-rule: column-rule-width column-rule-style column-rule-color; 
-                            // accepts same value as border; 
-
-                        you can not style columns individually
-
-                        Something to take note of is that the rule doesn't take up any width of its own. 
-                        It lies across the gap you created with column-gap. To make more space on either side of the rule, 
-                        you'll need to increase the column-gap size.
-
-                    span columns 
-                        column-span: none, all; // can not span some columns it is either all or none; 
-                    
-                    avoid fragmented box accross columns
-                        break-inside: avoid; 
-                        page-break-inside: avoid; 
-                        // add these properties to the box you want to be in once piece while rendered on a page. 
-                
             
-            
-            
-                <h2>Responsive Design</h2>
+            <h2>CSS Grid</h2>
+                
+                A grid is a set of intersecting horizontal and vertical lines that creates a collection of small square areas
+                that are called grid cells and each vertical series of grid cells are called column tracks and each horizontal
+                series of grid cells are called row track. 
 
-                    HTML is fundamentally responsive. If you create a web page containing text and resize the browser window, 
-                    or display the page on a device with a smaller screen, then the browser will automatically reflow the text 
-                    to fit the window. This is called a liquid layout.
-                    The problem with this layout, though, is that the site would look squashed on smaller screens 
-                    (as seen below) and have unreadably long line lengths on larger ones.
+                In CSS we define a container area as a grid with 
+                    display: grid;
+                    or,
+                    display: inline-grid;
 
-                    The alternative is to create a fixed width layout, which sets elements to a fixed size in pixels.
-                    The problem with this approach is that you will get a horizontal scrollbar on screens smaller than 
-                    the site width (as seen below), and lots of white space at the edges of the design on larger screens.
-                    
-                    3 requirements for responsive web design
-                            1. fluid grid
-                            2. fluid images
-                            3. media query
-                            and also responsive typography may help 
+                and we define column and row track by, 
+                    grid-template-columns: column-track-size column-track-size column-track-size; 
+                    grid-template-rows: row-track-size row-track-size row-track-size; 
 
-                    Media queries
-                        The points at which a media query is introduced, and the layout changed, are known as breakpoints.
-                        
-                        A common approach when using Media Queries is to create a simple single-column layout for narrow-screen 
-                        devices (e.g mobile phones), then check for larger screens and implement a multiple-column layout when 
-                        you know that you have enough screen width to handle it. This is often described as mobile first design.
+                above two properties create explicit grid tracks and implicit grid tracks are created when grid items are 
+                created when items are placed into grid by auto placement algorithm
 
-                    vw units with font-size 
-                        You should never set text using viewport units alone.
-                    
-                        There is a solution, and it involves using calc(). If you add the vw unit to a value set using a 
-                        fixed size such as ems or rems then the text will still be zoomable. Essentially, the vw unit 
-                        adds on top of that zoomed value:
+                For example a grid container contains three grid items and we defined 3 columns tracks and grid items are 
+                placed into the grid according to column size but rows are automatically defined to contain grid items 
+                according to grid-item's content sizing, the automatically defined row track is called implicit row track. 
+                
+                    .container {
+                        display: grid; 
+                        grid-template-columns: 100px 200px 15%;              // 3 column tracks
+                        grid-template-rows: 100px 200px; // 2 row tracks     // total 6 grid cells
 
-                        h1 {
-                          font-size: calc(1.5rem + 3vw);
-                        }
-
-                    viewport meta tag
-                        <meta name="viewport" content="width=device-width,initial-scale=1">
-                            sets mobile browsers viewport width to their device width and intial zoom scale to 100%
-                            So you should always include the above line of HTML in the head of your documents.
-
-                        There are other settings you can use with the viewport meta tag, however in general the above 
-                        line is what you will want to use.
-
-                        initial-scale: Sets the initial zoom of the page, which we set to 1.
-                        height: Sets a specific height for the viewport.
-                        minimum-scale: Sets the minimum zoom level.
-                        maximum-scale: Sets the maximum zoom level.
-                        user-scalable: Prevents zooming if set to no.
-
-                        You should avoid using minimum-scale, maximum-scale, and in particular setting user-scalable to no. 
-                        Users should be allowed to zoom as much or as little as they need to; preventing this causes 
-                        accessibility problems.
-
-                        @viewport should not be used. it is deprecated
-
-                    
-                    
-                    
-                <h2>Media Queries</h2>
-
-                @media media-type and (media-feature-rule) {
-                    /* CSS rules go here */
+                        gap: 10px 2em;                                       // row-gap column-gap
+                        grid-auto-flow: row;                                 // implicit grid track direction
+                        grid-auto-rows: 100px;                               // implicit row track 
                     }
 
-                    1. media-type can be all, screen or print // it is optional, defaults to all if omitted
-                    2. media-featur-rule or media expression is acutally a conditional statement 
-                    3. css rules that will be applied if that media expression is satisfied
+                * Flexible grid tracks and repeat function
+                    .container {
+                        display: grid; 
+                        grid-template-columns: repeat(3, 1fr);              // same as grid-template-columns: 1fr 1fr 1fr; 
+                    }
+                    // 1fr means 1 fraction of available space
 
+                * Minimum and maximum size for a track
+                    grid-auto-rows: minmax(100px, auto);
 
-                media features Rules
-                    width, min-width, max-width, height, min-height, max-height: 200px; 
-                    orientation: landscape, portrait // by default desktop browser's orientation is landscape
-                    hover: hover, none 
-                    // if the user has the ability to hover over an element, which essentially means they are 
-                    // using some kind of pointing device; touchscreen and keyboard navigation does not hover.
+                * As many columns as will fit
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
 
-                    Also in Level 4 is the pointer media feature. This takes three possible values, none, fine and coarse. 
-                    A fine pointer is something like a mouse or trackpad. It enables the user to precisely target a small 
-                    area. A coarse pointer is your finger on a touchscreen. The value none means the user has no pointing 
-                    device; perhaps they are navigating with the keyboard only or with voice commands.
+                        divide viewport width by 200px and decide total number of columns possible and create them
+                        allot the rest of the available space (that is smaller than 200px)
+                        among all columns according to ratio of 1fr each. 
 
-                complex media queries with logical operators
+                    - auto-fill creates empty column tracks if space is available and do not collapse them
+                    - auto-fit also does the same but it will collapse the empty columns and gaps and allot them 
+                        to non empty columns 
+                    - both of these properties create explicit content tracks. 
                     
-                    and: 
-                        @media screen and (min-width: 600px) and (orientation: landscape) {
-                            body {
-                                color: blue;
-                            }
+                * By default implicit grid tracks are auto sized by their content and you can not addres them by 
+                    grid line number and place content in them, contents are auto placed in them. 
+
+                * To place grid item in the desired area of our grid we target the position with grid lines such as 
+                    column line and row line. We can also place grid items in our desired areas by grid-template-areas
+
+                * When we define grid we define grid tracks not the lines, grid them gives us numbered lines, 
+                    grid line numbers start from 1 at the start of a line and also starts from -1 to -n from 
+                    the end of the line. 
+
+                * when placing an item we target the line rather than track.
+
+                * Grid item placement line properties
+                        grid-column-start: 
+                        grid-column-end: 
+                        grid-row-start: 
+                        grid-row-end: 
+
+                    shorthand for row and column line, 
+                        grid-column: start / end; 
+                        grid-row: start / end; 
+
+                    shorthand for grid-column and grid-row, 
+                        grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end; 
+
+
+                * By default grid area spans 1 track so you can omit the end value if you want to span 1 track from start. 
+                
+                * You can also use span value to denote start and end line for a grid item, 
+
+                    grid-column: span 3 / 4 
+                        // grid area will start from column line 4 and span 3 line upwards
+
+                    grid-row: 1 / span 3 
+                        // grid area will start from row line 1 and span 3 lines
+
+                * Grid item positioning with grid template areas, 
+
+                    .container {
+                        display: grid; 
+
+                        // for item placement in layout and overall layout composition
+                        grid-template-areas: 
+                        "header header"
+                        "sidebar content"
+                        "footer footer";
+
+                        // to declare column tracks and sizes
+                        grid-template-columns: 1fr 2fr; 
+                    }
+
+                    header  {   grid-area: header;  }
+                    aside   {   grid-area: sidebar; }
+                    article {   grid-area: content; }
+                    footer  {   grid-area: footer;  }
+
+                    The rules for grid-template-areas are as follows:
+                        You need to have every cell of the grid filled.
+                        To span across two cells, repeat the name.
+                        To leave a cell empty, use a . (period).
+                        Areas must be rectangular — for example, you can't have an L-shaped area.
+                        Areas can't be repeated in different locations.
+                        The value of grid-template-areas must show a complete grid, otherwise it is invalid 
+                        (and the property is ignored).
+
+                * Nesting grid 
+                    you can set a grid item as grid container and its children will be grid items
+                    but children will not inherit gap or content tracks from its parents. 
+                        display: grid; 
+                        grid-template-columns: repeat( 3, 1fr); 
+
+                * Subgrid 
+                    set a grid item's container as, 
+                        display: grid;
+                        grid-template-columns: subgrid; 
+                    The nested grid will then use the parent grid tracks to layout items.
+
+                * Multiple grid items can occupy same grid cells, in that case, the grid item that comes later in the source
+                    will come on top while rendering but in case you want to change the order you can use 
+                    z-index property on those grid items, items with higher z-index value will come on top.
+
+                * "grid-tempalte" and "grid" shorthands
+
+                    Before using any shorthand it is worth remembering that shorthands not only enable 
+                    the setting of many properties in one go, they also act to reset things to their 
+                    initial values that you do not, or cannot set in the shorthand. 
+                    Therefore if you use a shorthand, be aware that it may reset things you have applied elsewhere.
+
+                    .wrapper {
+                            display: grid;
+                            grid-template:
+                            "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
+                            "sd sd sd main main main main main main" minmax(100px, auto)
+                            "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
+                                / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
                         }
+
+                        .wrapper {
+                            display: grid;
+                            grid: "hd hd hd hd   hd   hd   hd   hd   hd" minmax(100px, auto)
+                            "sd sd sd main main main main main main" minmax(100px, auto)
+                            "ft ft ft ft   ft   ft   ft   ft   ft" minmax(100px, auto)
+                            / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+                        }
+
+
+                * Implicit track direction and item order and packing style
+
+                    grid-auto-flow: row dense; 
+                        // implicit row tracks will be created to place items in grid 
+                        // and pack them densely overriding the source order.
+
+                    grid-tempalte-columns: 1fr 2fr 1fr; 
+
+                * Grid and display: contents; 
+                    // same as flexbox; child items becomes grid items such that parent container vanishes
                     
-                    or: 
-                        @media screen and (min-width: 600px), screen and (orientation: landscape) {
-                            body {
-                                color: blue;
-                            }
+                * Naming grid lines while creating a grid
+
+                    you can denote line names with grid lines while creating grid but line name can not be identical to
+                    any css syntax and they do not need to be quoted. 
+
+                    grid line name must be enclosed in third brackets and you can also use multiple names for single grid line
+
+                    also if you append -start and -end after line names you can get implicit grid area and use that common 
+                    name to place grid items into the grid. e.g., "content" in the following example, 
+
+                        .wrapper {
+                            display: grid;
+                            grid-template-columns: [main-start] 1fr [content-start] 1fr [content-end] 1fr [main-end];
+                            grid-template-rows: [main-start] 100px [content-start] 100px [content-end] 100px [main-end];
                         }
-                        // or denoted by comma in between conditions in case of media queries 
 
-                    not: 
-                        @media not all and (orientation: landscape) {
-                            body {
-                                color: blue;
-                            }
+                        .thing {
+                            grid-area: content;
                         }
 
-                Approach to design a responsive website 
-                    Choose your breakpoints depending on the following considerations 
-                    1. Make sure the webpage content is readable in small and large screens comfortably. 
-                    2. Your webpage visual representation is consistent accross different viewport sizes and elements are
-                        arranged in a logical order so it make sense to the viewer. 
-                    3. You can chose either mobile first or desktop first design approach but mobile first is the best 
-                        practice as it is rendered in a single column layout so you just have to arrange the source in a 
-                        logical order that best serves the user's interest. 
+                    We have seen how named lines create a named area, and this also works in reverse. Named template areas 
+                        create named lines that you can use to place your items, use grid inspector to experience that. 
 
-                    
-                Viewport meta tag 
-                    <meta name="viewport" content="width=device-width,initial-scale=1">
-                    use this line so that your website is properly rendered in mobile devices. 
-                    Stops mobile browsers from lying their viewport width. 
+                    You can also use repeat() with track definition and line names and multiple lines can have same name. 
 
                 
+                * Box alignment in CSS Grid Layout 
+                    box alignment specification 3 
+
+                    - Two axis of grid layout 
+                        block axis 
+                        inline axis 
+
+
+                    - Aligns all grid items on the block axis, 
+                        align-items: auto
+                                    normal
+                                    start
+                                    end
+                                    center
+                                    stretch
+                                    baseline
+                                    first baseline
+                                    last baseline
+                        // meant to be used by selecting the grid container 
+                        // The align-items property sets the align-self property for all of the child grid items
+
+                    - Aligns individual grid item on the block axis,
+                        align-self: 
+
+
+                    - Justifying items on the inline axis
+                        justify-items: [same values as align-items] 
+                        justify-self: [same values as align-self]
+                        
+
+                    - The specification details that the default behavior in align-self is to stretch, except for 
+                        items which have an intrinsic aspect ratio, in this case they behave as start.
+                        The reason for this, is that if items with an aspect ratio are set to stretch, 
+                        this default would distort them.
+
+                    - Shorthand properties
+                        The place-items property is shorthand for align-items and justify-items.
+                        The place-self property is shorthand for align-self and justify-self.
+                        
+                    - Center an item in a grid area
+                        align-self: center; 
+                        justify-self: center; 
+
+                
+                * Grid alignment in Parent Container 
+                    If you have a situation where your grid tracks use an area that is smaller than the grid container, 
+                    then you can align the grid tracks themselves, inside that container. 
+                        place-content: align-content justify-content; 
+
+                    possible values, 
+                        normal start end center stretch space-around space-between space-evenly 
+                        baseline first baseline last baseline
+
+                    align-content: default is start 
+                    justify-content: 
                     
+                * Reordering and acessibility
+                    Any time you reorder things with grid layout – or with flexbox – you only perform visual reordering. 
+                    The underlying source is what controls things like text to speech, and the tab order of the document.
 
-                <h2>Legacy Layout Methods</h2>
+                    keep the visual and document source order in sync 
+                    The key here is to keep testing, a very simple test is to tab around the document. Does that order 
+                    still make sense? Check that you do not end up leaping from the top to the bottom of the layout in 
+                    a peculiar way. If so that would be a sign that you need to address something about the layout.
+                
+                    keep semantics in document source, you should not omit semantic elements to apply visual styles.
+
+                * Gap 
+                    In terms of grid sizing, gaps act as if they were a regular grid track however nothing can be placed 
+                    into the gap. The gap acts as if the grid line at that location has gained extra size, so any grid 
+                    item placed after that line begins at the end of the gap.
+
+                    The row-gap and column-gap properties are not the only things that can cause tracks to space out. 
+                    Margins, padding, or the use of the space distribution properties in Box Alignment can all contribute 
+                    to the visible gap – therefore the row-gap and column-gap properties should not be seen as equal to 
+                    the "gutter size" unless you know that your design has not introduced any additional space with one 
+                    of these methods.
+
+                * Floats and other legacy layout method's properties doesn't work on grid or flex items
+                    meaning in supported browsers grid and flex layout properties take precedence over other properties 
+                    for alignment and so on. 
+            
+            
+            
+            <h2>Floats</h2>
+                
+                The float property was introduced to allow web developers to implement simple layouts involving an 
+                image floating inside a column of text, with the text wrapping around the left or right of it. 
+                The kind of thing you might get in a newspaper layout.
+
+                The element with the float set on it is taken out of the normal layout flow of the document and stuck to 
+                the left or right (depending on float value) side of its parent container. 
+
+                Any content that would come below the floated element in the normal layout flow will now wrap around 
+                it instead, filling up the space to the opposite side of the float as far up as the top of the 
+                floated element. There, it will stop.
+
+                    float: left , right; 
+
+                if you want the following content from wrapping around the float or moving up you should clear it with, 
+                    clear: left, right, both; // on the following element
+                
+                if you have a tall float and a short paragraph, with a box wrapped around both elements, in that case 
+                to clear following item you could use, 
                     
-                    uses float clear and divide the useable area by desired number of columns and define css rules for columns 
-                    and rows and other margin for column gutters, height is the problem
+                    1. on the wrapper box
 
-                    flexbox grid are created with flex-basis set to width desired and defining pre determined width needed 
-                    for different sized columns
-
-                    other css grid frameworks like bootstarp and foundation also calculates the column and their
-                    width the same way and set the values using % (percentages) to make grid columns fluid. 
-
-
-                <h2>Supporting Older Browsers</h2>
-                    
-
-                    A well structured document as a source so that the normal flow of your page makes sense 
-                    A user with a very limited feature phone might not get much of your CSS, but the content 
-                    will flow in a way that makes reading easy.
-                    If you remove your stylesheet, does your content make sense?
-
-
-                    Fallback methods
-                        There are a number of layout methods which can be used in a similar way to this float example. 
-                        You can choose the one that makes the most sense for the layout pattern you need to create.
-                    
-                    Float and clear
-                        As shown above, the float and clear properties cease to affect the layout if floated or cleared items 
-                        become flex or grid items.
-                    
-                    display: inline-block
-                        This method can be used to create column layouts, if an item has display: inline-block set 
-                        but then becomes a flex or grid item, the inline-block behavior is ignored.
-                    
-                    display: table
-                        The method of creating CSS Tables described in the introduction to these lessons can be used as a 
-                        fallback. Items that have CSS table layouts set on them will lose this behavior if they become flex 
-                        or grid items. Importantly, the anonymous boxes created to fix up the table structure are not created.
-                    
-                    Multiple-column Layout
-                        For certain layouts you could use multi-col as a fallback, if your container has any of the column-* 
-                        properties defined on it and then becomes a grid container, the multicol behavior will not happen.
-                    
-                    Flexbox as a Fallback for Grid
-                        Flexbox has greater browser support than Grid due to being supported by IE10 and 11, although do 
-                        check out the information later in this lesson explaining the rather patchy and confusing support 
-                        for Flexbox in older browsers. If you make a flex container into a grid container, any flex property 
-                        applied to the children will be ignored.
-
-
-                    Feature queries
-                        @supports (display: grid){
-                            
+                        .wrapper::after { 
+                            content: "";
+                            display: block;
+                            clear: both;
                         }
+                        //clearfix hack
+
+                    2. 
+                        overflow: auto; // any value other than visible or clip 
+
+                        this creates a BFC - block formatting context which is like a mini layout inside your webpage 
+                        where all enclosed elements will be contained within it, however it has a problem in case of 
+                        overflow that might result in unexpected behaviour such as clip shadow or scrollbar
+
+                    3. 
+                        display: flow-root; 
+                        // sole purpose of this property value is to create a BFC without unintended consequences.
+
+            
+
+            <h2>Positioning</h2>
+
+                Positioning allows to override the normal document flow. 
+                position: static (default), relative, absolute, fixed; 
+
+                static
+                    default positioning of an element on the webpage i.e., all elements in normal flow
+
+                relative
+                    This is very similar to static positioning, except that once the positioned element has taken its 
+                    place in the normal flow, you can then modify its final position, including making it overlap 
+                    other elements on the page. 
+                    This means that it's relative to its original position within the parent element.
+                    Relative positioned element is not taken out of normal document flow. 
+
+                absolute 
+                    absolute positioned elements are taken out of normal document flow, Instead, it sits on its own layer 
+                    separate from everything else and it is positioned relative to its containing element
+
+                    If no ancestor elements have their position property explicitly defined, 
+                    then by default all ancestor elements will have a static position. The result of this 
+                    is the absolutely positioned element will be contained in the initial containing block outside of the
+                    html element itself 
+
+                    it means that we can create isolated UI features that don't interfere with the layout of other elements 
+                    on the page. For example, popup information boxes, control menus, rollover panels, UI features that can 
+                    be dragged and dropped anywhere on the page, and so on.
+
+                fixed 
+                    fixed positioning usually fixes an element in place relative to the visible portion of the viewport
+                    fixed positioned element is taken out of normal document flow
+                    you can create useful UI items that are fixed in place, like persistent navigation menus that are 
+                    always visible no matter how much the page scrolls.
+
+                sticky
+                    it is a hybrid between relative and fixed position. It allows a positioned element to act like 
+                    it's relatively positioned until it's scrolled to a certain threshold (e.g., 10px from the top 
+                    of the viewport), after which it becomes fixed.
+                    Sticky elements are "sticky" relative to the nearest ancestor with a "scrolling mechanism",
+
+                position specifier
+                    top: 
+                    bottom: 
+                    right: 
+                    left: 
+                    // defines offset from target elements position in length units such as px, % , mm etc. 
+                    margins still affect positioned elements. Margin collapsing doesn't, however.
+                    you can resize elements using these properties
+                
+
+                Identifying containing block
+                    If the position property is static, relative, or sticky, the containing block is formed by 
+                    the edge of the content box of the nearest ancestor element that is either a block container 
+                    (such as an inline-block, block, or list-item element) or establishes a formatting context 
+                    (such as a table container, flex container, grid container, or the block container itself).
+
+                    If the position property is absolute, the containing block is formed by the edge of the padding 
+                    box of the nearest ancestor element that has a position value other than static 
+                    (fixed, absolute, relative, or sticky).
+
+                    If the position property is fixed, the containing block is established by the viewport (in the 
+                    case of continuous media) or the page area (in the case of paged media).
+
+                    If the position property is absolute or fixed, the containing block may also be formed by the 
+                    edge of the padding box of the nearest ancestor element that has the following:
+                        A transform or perspective value other than none
+                        A will-change value of transform or perspective
+                        A filter value other than none or a will-change value of filter (only works on Firefox).
+                        A contain value of paint (e.g. contain: paint;)
+                        A backdrop-filter other than none (e.g. backdrop-filter: blur(10px);)
+
+                    Note: The containing block in which the root element (<html>) resides is a rectangle called 
+                        the initial containing block. It has the dimensions of the viewport (for continuous media) 
+                        or the page area (for paged media).
+
+
+                    z-index and visibility of overlapping elements
+                        Any positioned element take precedence over static positioned element in terms of visibility
+                        Any element that overlaps other element and comes later in document source, comes on top 
+                        
+
+                        "z-index" is a reference to the z-axis; 
+                        Web pages also have a z-axis: an imaginary line that 
+                        runs from the surface of your screen towards your face. z-index values affect where positioned 
+                        elements sit on that axis; positive values move them higher up the stack, negative values move 
+                        them lower down the stack. By default, positioned elements all have a z-index of auto, which 
+                        is effectively 0.
+
+                        Note that z-index only accepts unitless index values; 
+
+                
+            <h2>Multi-Column Layout</h2>
+                
+                The multiple-column layout specification provides you with a method for laying content out in columns, 
+                as you might see in a newspaper. This article explains how to use this feature.
+
+                you can enable multiple column layout in a container element by either of the following, 
+                1. 
+                    column-count: n // positive integer; browser will give you equally sized n number of columns
+
+                2. 
+                    column-width: length units // e.g., 200px, 
+                    // browser will divide the container width by given width and give you most numer of columns
+                    // possible but if it is not evenly divisible, remainder width will be distributed to all columns
+
+                
+                styling the columns
+
+                    Changing the size of the gap between columns using the 
+                        column-gap: 10px; 
+
+                    Adding a rule between columns with 
+                        column-rule: column-rule-width column-rule-style column-rule-color; 
+                        // accepts same value as border; 
+
+                    you can not style columns individually
+
+                    Something to take note of is that the rule doesn't take up any width of its own. 
+                    It lies across the gap you created with column-gap. To make more space on either side of the rule, 
+                    you'll need to increase the column-gap size.
+
+                span columns 
+                    column-span: none, all; // can not span some columns it is either all or none; 
+                
+                avoid fragmented box accross columns
+                    break-inside: avoid; 
+                    page-break-inside: avoid; 
+                    // add these properties to the box you want to be in once piece while rendered on a page. 
+            
+        
+        
+        
+            <h2>Responsive Design</h2>
+
+                HTML is fundamentally responsive. If you create a web page containing text and resize the browser window, 
+                or display the page on a device with a smaller screen, then the browser will automatically reflow the text 
+                to fit the window. This is called a liquid layout.
+                The problem with this layout, though, is that the site would look squashed on smaller screens 
+                (as seen below) and have unreadably long line lengths on larger ones.
+
+                The alternative is to create a fixed width layout, which sets elements to a fixed size in pixels.
+                The problem with this approach is that you will get a horizontal scrollbar on screens smaller than 
+                the site width (as seen below), and lots of white space at the edges of the design on larger screens.
+                
+                3 requirements for responsive web design
+                        1. fluid grid
+                        2. fluid images
+                        3. media query
+                        and also responsive typography may help 
+
+                Media queries
+                    The points at which a media query is introduced, and the layout changed, are known as breakpoints.
+                    
+                    A common approach when using Media Queries is to create a simple single-column layout for narrow-screen 
+                    devices (e.g mobile phones), then check for larger screens and implement a multiple-column layout when 
+                    you know that you have enough screen width to handle it. This is often described as mobile first design.
+
+                vw units with font-size 
+                    You should never set text using viewport units alone.
+                
+                    There is a solution, and it involves using calc(). If you add the vw unit to a value set using a 
+                    fixed size such as ems or rems then the text will still be zoomable. Essentially, the vw unit 
+                    adds on top of that zoomed value:
+
+                    h1 {
+                        font-size: calc(1.5rem + 3vw);
+                    }
+
+                viewport meta tag
+                    <meta name="viewport" content="width=device-width,initial-scale=1">
+                        sets mobile browsers viewport width to their device width and intial zoom scale to 100%
+                        So you should always include the above line of HTML in the head of your documents.
+
+                    There are other settings you can use with the viewport meta tag, however in general the above 
+                    line is what you will want to use.
+
+                    initial-scale: Sets the initial zoom of the page, which we set to 1.
+                    height: Sets a specific height for the viewport.
+                    minimum-scale: Sets the minimum zoom level.
+                    maximum-scale: Sets the maximum zoom level.
+                    user-scalable: Prevents zooming if set to no.
+
+                    You should avoid using minimum-scale, maximum-scale, and in particular setting user-scalable to no. 
+                    Users should be allowed to zoom as much or as little as they need to; preventing this causes 
+                    accessibility problems.
+
+                    @viewport should not be used. it is deprecated
+
+                
+                
+                
+            <h2>Media Queries</h2>
+
+            @media media-type and (media-feature-rule) {
+                /* CSS rules go here */
+                }
+
+                1. media-type can be all, screen or print // it is optional, defaults to all if omitted
+                2. media-featur-rule or media expression is acutally a conditional statement 
+                3. css rules that will be applied if that media expression is satisfied
+
+
+            media features Rules
+                width, min-width, max-width, height, min-height, max-height: 200px; 
+                orientation: landscape, portrait // by default desktop browser's orientation is landscape
+                hover: hover, none 
+                // if the user has the ability to hover over an element, which essentially means they are 
+                // using some kind of pointing device; touchscreen and keyboard navigation does not hover.
+
+                Also in Level 4 is the pointer media feature. This takes three possible values, none, fine and coarse. 
+                A fine pointer is something like a mouse or trackpad. It enables the user to precisely target a small 
+                area. A coarse pointer is your finger on a touchscreen. The value none means the user has no pointing 
+                device; perhaps they are navigating with the keyboard only or with voice commands.
+
+            complex media queries with logical operators
+                
+                and: 
+                    @media screen and (min-width: 600px) and (orientation: landscape) {
+                        body {
+                            color: blue;
+                        }
+                    }
+                
+                or: 
+                    @media screen and (min-width: 600px), screen and (orientation: landscape) {
+                        body {
+                            color: blue;
+                        }
+                    }
+                    // or denoted by comma in between conditions in case of media queries 
+
+                not: 
+                    @media not all and (orientation: landscape) {
+                        body {
+                            color: blue;
+                        }
+                    }
+
+            Approach to design a responsive website 
+                Choose your breakpoints depending on the following considerations 
+                1. Make sure the webpage content is readable in small and large screens comfortably. 
+                2. Your webpage visual representation is consistent accross different viewport sizes and elements are
+                    arranged in a logical order so it make sense to the viewer. 
+                3. You can chose either mobile first or desktop first design approach but mobile first is the best 
+                    practice as it is rendered in a single column layout so you just have to arrange the source in a 
+                    logical order that best serves the user's interest. 
+
+                
+            Viewport meta tag 
+                <meta name="viewport" content="width=device-width,initial-scale=1">
+                use this line so that your website is properly rendered in mobile devices. 
+                Stops mobile browsers from lying their viewport width. 
+
+            
+                
+
+            <h2>Legacy Layout Methods</h2>
+                
+                uses float clear and divide the useable area by desired number of columns and define css rules for columns 
+                and rows and other margin for column gutters, height is the problem
+
+                flexbox grid are created with flex-basis set to width desired and defining pre determined width needed 
+                for different sized columns
+
+                other css grid frameworks like bootstarp and foundation also calculates the column and their
+                width the same way and set the values using % (percentages) to make grid columns fluid. 
+
+
+            <h2>Supporting Older Browsers</h2>
+                
+
+                A well structured document as a source so that the normal flow of your page makes sense 
+                A user with a very limited feature phone might not get much of your CSS, but the content 
+                will flow in a way that makes reading easy.
+                If you remove your stylesheet, does your content make sense?
+
+
+                Fallback methods
+                    There are a number of layout methods which can be used in a similar way to this float example. 
+                    You can choose the one that makes the most sense for the layout pattern you need to create.
+                
+                Float and clear
+                    As shown above, the float and clear properties cease to affect the layout if floated or cleared items 
+                    become flex or grid items.
+                
+                display: inline-block
+                    This method can be used to create column layouts, if an item has display: inline-block set 
+                    but then becomes a flex or grid item, the inline-block behavior is ignored.
+                
+                display: table
+                    The method of creating CSS Tables described in the introduction to these lessons can be used as a 
+                    fallback. Items that have CSS table layouts set on them will lose this behavior if they become flex 
+                    or grid items. Importantly, the anonymous boxes created to fix up the table structure are not created.
+                
+                Multiple-column Layout
+                    For certain layouts you could use multi-col as a fallback, if your container has any of the column-* 
+                    properties defined on it and then becomes a grid container, the multicol behavior will not happen.
+                
+                Flexbox as a Fallback for Grid
+                    Flexbox has greater browser support than Grid due to being supported by IE10 and 11, although do 
+                    check out the information later in this lesson explaining the rather patchy and confusing support 
+                    for Flexbox in older browsers. If you make a flex container into a grid container, any flex property 
+                    applied to the children will be ignored.
+
+
+                Feature queries
+                    @supports (display: grid){
+                        
+                    }
+
+            
+            <h2>Advanced CSS</h2>
+                
+                clip-path: polygon(4 co-ordinates seperated by commas)
+
+                img is an inline element. 
+
+                transform: translate(x, y) // move element relative to its original position
+
+                position: absolute 
+                position: relative 
+                top: 
+                left: 
+
+                text-transform: 
+
+                css animation can be done in two major ways 
+                1. transition 
+                2. @keyframes animationName { 0% { } 100% { } }
+
+                can we nest div inside h1 element ? 
+
+                backface-visibility: hidden; // to make animiton smooth
+
+                animation: animation-name animation-duration animation-timing-function;
+
+                display: inline-block ( respects height and width ) vs inline (takes margin and padding but 
+                                        does not respect width or height). 
+                                        
+                transition: transition-property transition-duration transition-timing-function transition-delay;
+                
+                .btn:hover::after // because pseudo element can not have pseudo classes 
+                A pseudo-class is a simple selector. A pseudo-element, however, is not, even 
+                though it resembles a simple selector.
+
+                In CSS, ::after creates a pseudo-element that is the last child of the selected element.
+                It is inline by default.
+
+                Note: The pseudo-elements generated by ::before and ::after are contained by the element's 
+                formatting box, and thus don't apply to replaced elements such as <img>, or to <br> elements.
+
+                animation-fill-mode: none, forwards, backwards 
+                    forwards
+                        The target will retain the computed values set by the last keyframe encountered during execution.
+                    backwards
+                        The animation will apply the values defined in the first relevant keyframe as soon as it is applied 
+                        to the target, and retain this during the animation-delay period.
+
+                transition and animation property should always be decalred inside element's initial state. 
+
+                    
+                how css works
+                    parse html -> DOM   |
+                                        |--> render tree ----> visual fromatting model ----------> Finally rendered 
+                    parse css  -> CSSOM |                ( box model, floats, positioning)
+
+                    
+                    every css propert must have a value, 
+                        is there a cascaded value --> (No) --> is the property inherited --> (No) --> specified value == initial value 
+                                    |                                           |
+                                    (Yes)                                       (Yes)
+                                    |                                           |
+                        specified value == cascaded value            specified value == computed value of the parent element
+
+
+                    How cascade works 
+                        * importance > specificity > source order of css style declaration; declaration that comes lates overwrites previous
+                        * always put your author stylesheet last. 
+                        * specificity also applies to pseudo-class's. Such as, :hover : active 
+                    
+                    How CSS values are processeed 
+                        * all relative values are converted to pixels and any half pixel value rounded before being applied to elements. 
+                        * inherited property always inherits the computed value not the declared value. 
+                        * 
+                            -> declared   (author declared value)
+                            -> cascaded   (after cascade)
+                            -> specified  (or initial value according to css specification if no value has been defined for the property)
+                            -> computed   (relative to absolute value)  
+                            -> used       (final calcualtion based on layout)  
+                            -> actual     (rounded value that is applicable to pixel)
+
+                    Visual formatting model 
+                        * every element in html has a rectangular box around it,
+                        
+                        according to display type box'es are of type inline and block
+                            box around element are called line-box and block-box that are around block element. 
+
+                        fill-area: content + padding + border => area that gets filled with background image or color.
+
+                    Floats are taken out of normal flow. 
+                    two elements if collide their height diminishes you should use clearfix to resolve that. 
+
+                    CSS architecture for maintainability, scalability and future growth
+                        * Component Driven Design
+                            1. Modular building blocks that make up interfaces 
+                            2. Held together by layout of the page. 
+                            3. Re-usable accross projects 
+                            Components should be Independent 
+                        * Atomic Design
+                        * BEM (Block Element Modifier) syntax for class naming
+                            1. A block should be an independent component of the UI and it should be re-usable
+                            2. An element is kind of build block of a component, it does not have meaning of its own.
+                            3. A modifier is just a css ruleset declaration that modifies either element or block.
+
+                    SASS - Syntatically Awesome Style Sheets 
+                        variables
+                            reusable values such as colors, font-size, spacing etc, 
+                            $variable_name or $variable-name: value;
+                        
+                        Nesting 
+                            nest selectors withing indentation block or within block's braces uses "&" etc. 
+                            
+                        Operators 
+                            for math operators like +, -, *, math.div()
+
+                        partials and imports 
+                            to write css in different files and import them all into a single file, e.g., 7-1 architecture
+                            
+                        mixins 
+                            to write reusable piece of code / rulesets 
+                        
+                        functions 
+                            return a value and takes arguments as well 
+                        
+                        extends/inheritance 
+                            add selectors to a piece of code that extends it, the code is defined in a %placeholder
+
+                        control directives 
+                            for writing complex code using conditional and loops
+
+                Layout 
+                    * Maximum width of a layout 
+                        max-width: 1140px; // or 1200px is standard in desktop first approach
+
+                    * calculate width or height
+                        width: calc(100% - 150px);
+
+
+                    Flexbox 
+                        * align-items: baseline; // 
+
+                        * align text in a contatiner with flexbox 
+                            display: flex; // in the container 
+                            align-items: center; 
+
+                        * push two flex items to two ends 
+                            margin-right: auto; // on the flex-item at the left. 
+
+                        * control space between flex rows
+                            align-content: 
+
+                    Grid 
+                        * if you specify grid-row on an item that places it onto an area where other grid-item is 
+                            explicitely placed by grid-row and grid-coloumn line number then it will simply place that 
+                            grid-item which is being positioned to a new location but if you specify grid-column as well 
+                            then it will overlap the already placed grid item. 
+
+                        * use -1 while placing a grid-item in a grid container only when grid tracks are explicitely 
+                            specified. 
+                        
+                        * naming grid line is a professional practice. 
+
+                        * named set of grid lines 
+                            col-start 1 / grid-end
+
+                        * for small and simple layout we can use 'grid-template-areas' 
+
+
+                        * align grid tracks to grid container 
+                            justify-content: 
+                            align-content: 
+
+                            * only works when grid area is smaller than the container 
+                        
+                        * 'hole' in the grid can be caused by auto placement algorithm because it tries to keep the source order. 
+                            It can be avoided by using 'dense' keyword with 
+                            grid-auto-flow: row (or column) dense; 
+
+                        * Before designing a grid decide the smallest grid item size and size your grid column and rows
+                        
+                        * start with how many rows you want and their height. 
+                        
+                        * If you intend to redefine your grid at breakpoints to adopt to different screen sizes, please 
+                            consider naming your grid lines, that is mandatory. 
+                        
+                            * Then name and create columns 
+
+                        * span a grid item multiple row by, 
+                            grid-row: start/end; 
+                            grid-row: start/span n;
+
+                        * css 'fr' unit always shares remaining available space but never less than the minimum content. 
+                        * minmax 
+                        * auto-fit 
+                        * auto-fill 
+
+
+                Styling Elements
+                    * skew an element 
+                        transform: skew(10deg);
+
+                    * scale an element 
+                        transform: scale(1.5)   // a ratio, 1 is the original size of the element. 
+
+                    * show background as text 
+                        background-clip: text; 
+
+                    * create a border around an element / box away from it 
+                        outline: 2px solid green; //same values as border property
+                        outline-offset: 20px; // outline starts 20 px further from the element's box 
+
+                    * background-blend-mode: 
+
+                    * multi line text with same style background 
+                        box-decoration-break: clone;
+
+                    * make text shape around an element according the element's shape 
+                        shape-outside: circle( )
+
+                    * apply filter on an image element 
+                        filter: blur(10px) brightness(90%);
+
+                    * Background video 
+                        object-fit: cover; 
+                        background-size: cover; 
+
+                    * input elements 
+                        if placeholder shown 
+                            input:placehodler-shown { }
+
+                        style the placeholder
+                            input::placeholder {}
+
+                    * An inline element inside a block parent container behaves just like text. 
+                        so you can use 
+                            text-align: center; // to center the element inside the container
+
+                    * move background relative to the original position
+                        background-position: 100%; // move background 100% to the right in the X axis 
+                                                   // and center in the Y axis. 
+
+                    * enable auto hyphenation in a paragraph
+                        p {
+                            hyphens: auto;
+                        }
+
+                    * show child elements as table cells 
+                        dispaly: table-cell;
+                        
+                        and also set the parent container to 
+                        display: table;
+
+                    * css glyphs https://css-tricks.com/snippets/html/glyphs/
+
+                    * display img as block element 
+                    * Flexible images: width value set with percentages so image stays fluid. 
+                    
+
+                    SVG
+                        * Best practice is to move away from icon-font to better alternative such as svg 
+                        * import svg icon sprite file 
+                        * change svg icon color 
+                            fill: orangered; 
+                        * we often size svg as square 
+                        * 'currentColor' property value is same as current element's color; 
+                            useful when we set icon's color to match the text color 
+                        
+                        * svg icon acts like inline elements, bit like text so there is a small extra space at 
+                            the bottom of icon, you can remove it by
+                                font-size: 0;
+                                line-height: 0; 
+
+                            or by setting their parent element to, 
+                                display: flex;
+
+                        * mask image 
+                            mask-image: 
+                            background-image takes precedence over mask-image 
+
+
+                    Animation
+                        * visibility: hidden and display: none is not animatable so opacity: 0 is used. 
+
+                        * Infinite animation 
+                            animation: name duration infinite;
+
+                        * transition does not work on background-image; 
+
+                        * chose from where transform begin 
+                            transform-origin: center; // default 
+    
+                        *** Staged animation can be created with 
+                            transition property and multiple transition value seperated by commas and transition delay. 
+
+                    * background-origin: 
+
+                    * z-index does not work without position property being set to some value. Except for flex-item or grid-item. 
+
+                    * Object-fit: cover; 
+                        will not work without both height and width set.
+
+                    * use helper class on reusable components
+
+                    * use thinner font to deliver a luxerious feel. 
+                    
+                * Applying styles to child elements 
+                    * apply styles to all child but not the last child 
+                        :not(:last-child) { }
+
+
+                * Gradiant 
+                    gradiant always forms perpendicular to gradiant line 
+
+                * Responsive Web design 
+                    * use em for media queries and rem for element's width and height 
+                    
+                    1. Desktop first, 
+                        max-width: 600px; === width <= 600px
+                    
+                    2. Mobile first, 
+                        min-width: 600px; === width >= 600px
+
+                    * code order matters 
+
+                * feature check and graceful degradation 
+                    @supports (hover){
+
+                    }
+                    * always put the prefixed version before the original version. 
+
+                * custom properties does not work with media queries 
+                * apply breakpoint where it breaks.
+
+
+                    
         <aside>
 
         </aside>
     </main>
+</pre>
     <footer></footer>
 </body>
 </html>
