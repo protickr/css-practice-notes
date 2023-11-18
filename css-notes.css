@@ -1,0 +1,741 @@
+/*
+1. cascade and specificity only applies to conflicting style declarations not to the entire rule-set 
+    
+    if two conflicting styling declarations from two different rule-sets target the element with -
+        cascade: same specificity the styling declaration that comes later applies
+        specificity: different specificity then the styling declaration that is from the more specific selector gets applied
+
+2. A value not specified in CSS shorthand reverts to its initial value. This means an omission in CSS shorthand 
+    can override previously set values.
+
+3. target element if it has more than one class applied, 
+    .note-box {
+        border: 4px solid #666;
+        padding: .5em;
+    }
+
+    .note-box.warning {
+        border-color: orange;
+        font-weight: bold;
+    }
+
+    .note-box.danger {
+        border-color: red;
+        font-weight: bold;
+    }
+
+4. h1.heading, h1#heading
+
+5. attribute selector 
+    []
+    [title] 
+    [title="value"] 
+    a[title="value"]
+    span[class~="special"]  // <span class="bold special review">  </span>
+    span[lang|="en"]        // <span lang="en-US">  </span>
+    input[class^="product"] // <input class="product-quantity">, <input class="product-price">
+    svg[class$="icon"]      // <svg class="product__icon">, <svg class="cart__icon">
+    [class*="box"]          // <svg class="product-box__icon">, <img class="cart-box">
+
+6. pseudo class 
+    :first-child, :first-of-type, :last-child, :last-of-type, :not, :invalid, :has, :hover, :focus, :active etc.
+        e.g., article p:first-child {  } // selects first descendent of article element which is a paragraph.
+
+7. pseudo elements 
+    ::after, ::before, ::first-line, ::first-letter, ::placeholder, ::selection etc.
+
+8. combining pseudo class and pseudo elements 
+    e.g., 
+    article p:first-child::first-line{ }
+    select the first paragraph inside any article if the paragraph is the first child 
+    of that article and style the first-line
+
+9. The descendant combinator — typically represented by a single space (" ") character
+    selects all descendants 
+        article span { } // selects all span that are nested inside article even if 
+        they are grand children  / not the direct children
+
+10. direct children combinator - ">"
+    selects only direct children
+
+11. adjacent sibling selector " + "
+    only selects the adjacent next sibling that matches the selector
+
+12. general sibling selector " ~ "
+    only selects the next sibling that matches the selector even if 
+    it appears after some other elements on the same nesting level
+
+
+13. specificity order 
+    element, pseudo-element < class, pseudo-class, attribute < id < inline
+
+
+14. Inheritance 
+    a) property: inherit: 
+        inherit property value from parent if not inheriting already 
+
+    b) property: initial; 
+        resets to CSS specification default 
+
+    c) property: revert;
+        reset property value to to browser default;
+
+    d) property: unset; 
+        inherit if it is inherited property or reset to CSS specification default if it is not 
+
+    to set any of these inheritance values to all properties of an element, select it and use all: 
+        p { all: initial; }
+
+15. importance -> specificity -> source order 
+
+16. the box model 
+    1. block boxes 
+    2. inline boxes 
+
+    each box type has two different different display types 
+        a) outer display type 
+        b) inner display type 
+
+    BLOCK: If a box has a outer display type of block 
+        1. the box will break onto a new line 
+        2. the width and height properties are respected 
+        3. padding, margin and border will cause other elements to be pushed away from the box 
+        4. if no width is set then the box will extend in the inline direction to fill the space 
+            available in its container. The box will become as wide as its parent container 
+        5. also child element's accumulated height determines any block box's height if the height of 
+            the parent/container block box's is not explicitly defined by using "height" property value.
+
+        e.g., p, ul, div, section, article, main, ol, dl, h1-h6, 
+
+    INLINE: If a box has a outer display type of inline 
+        1. The box will not break onto a new line.
+        2. The width and height properties will not apply.
+        3. Top and bottom padding, margins, and borders will apply but will not cause other inline 
+            boxes to move away from the box.
+        4. Left and right padding, margins, and borders will apply and will cause other 
+            inline boxes to move away from the box.
+            e.g., a, span, strong, 
+
+17. background-color extends within the fill area: content-box + padding-box;
+
+18. background-image: extends within the fill area, 
+    if you apply background-color and background-image to a container then the image comes on top of the color. 
+
+19. By default, the large image is not scaled down to fit the box, so we only see a small corner of it, 
+    whereas the small image is tiled to fill the box.
+    
+20. background-size: 
+
+    cover — the browser will make the image just large enough so that it completely covers the box area 
+    while still retaining its aspect ratio. In this case, part of the image is likely to end up outside the box.
+    
+    contain — the browser will make the image the right size to fit inside the box. In this case, you may 
+    end up with gaps on either side or on the top and bottom of the image, if the aspect ratio of the image 
+    is different from that of the box 
+
+    it also accepts length and percentage values 
+
+    background-size: width height;
+
+21. positioning background image: 
+    background-position: x y; 
+    background-position: top center;
+    background-position: top; // center 0; 
+
+    background-position: left 10% top 10%;
+
+22. background-attachment: 
+    how they scroll when the content in that container scrolls
+
+    background-attachment: local; // background-image scrolls with the container content and with the page. 
+    background-attachment: scroll; // background-image scrolls with the page, not with the content in the container
+    background-attachment: fixed; // background-image does not scroll neither with the content nor with the page
+
+23. border radius 
+    border-radius: horizontal vertical;
+
+    border-top-right-radius: 10px; 
+
+24. writing-mode: 
+    text direction: 
+
+25. overflow: hidden;
+    overflow: scroll; // shows scrollbar always 
+    overflow: auto; // shows scrollbar only when content is overflowing
+    overflow: overflow-x overflow-y;
+
+    overflow-x: auto;
+    overflow-y: auto;
+    
+    overflow: auto | scroll; // creates a block formatting context: mini layout inside a container 
+        no element overflows the container no outside element pokes the inside elements 
+
+    When developing a site, always keep overflow in mind. Test designs with large and small amounts of content. 
+    Increase and decrease font sizes by at least two increments. Ensure your CSS is robust. 
+
+26. word-break: break-all; 
+    word-break: keep-all;
+
+27. overflow-wrap: break-word;
+
+28. relative units 
+    em: for font-size, 1em of child's font-size == font-size of its parent
+        for width or height, 1em of width == font-size of itself.
+
+    %: font-size, 1% == 1% of parent's font size 
+        width, height, 1% == 1% of parent's width.
+
+29. When you use margin and padding set in percentages, the value is calculated from the width of the parent.
+    even the top and bottom margin and padding.
+    however, setting width and height in percentage will take parent's width and height in account while 
+    calculating child's height and width.
+
+30. min-height, max-width 
+    max-width: 100%; on img elements
+    so that it can grow and shrink according to the parent's width but never overflows the parent container.
+
+31. replaced elements and responsiveness using a wrapper container and object-fit property, 
+    1. to keep image's intrinsic ratio we can wrap the image in a container, set height and width to that 
+        container and set the image's 
+        max-width: 100%; 
+        so that the image can grow 100% of it's parent width if needed and it can also shrink 
+        but in this approach the image will keep it's aspect ratio and leave empty space. 
+
+    2. Now if we want that image to cover the entire area of its parent container we could use object-fit 
+        property in that case the image will grow or shrink to cover the entire area of its parent but will also 
+        keep its aspect ratio, only drawback is the excessive part will be cropped off the box, 
+
+        a) first wrap the image elements in a container 
+            <div class="box">
+                <img src="balloons.jpg" alt="balloons" class="cover">
+            </div>
+
+        b) second, set height and width to that container 
+        .box {
+                width: 200px;
+                height: 200px;
+            }
+
+            * if the box is a flex item or a grid item, the image will be responsive automatically and in that case 
+                we no longer need to set height and width to the image wrapper 
+
+        c) third, set image height and width to 100%
+            img {
+                height: 100%;
+                width: 100%;
+            }
+
+        d) set object-fit:cover on the image 
+            .cover {
+                object-fit: cover;
+            }
+
+        we can also use, contain or fill as object-fit's value.
+
+32. replaced elements: img, video in flex or grid layout behaves differently 
+        in a flex or grid layout elements are stretched by default to fill the entire area. 
+        Images will not stretch, and instead will be aligned to the start of the grid area or flex container.
+        to keep their intrinsic aspect ratio 
+
+        * we can use the previous method to make img and video elements to render nicely in flex or grid. 
+
+33. styling form inputs 
+        a) width, height, padding, margin, border all applies 
+        b) they do not inherit font properties so inherit them 
+        c) reset their browser default styles as they are rendered differently across different 
+            OS and browser, use different box sizing rules for different widgets.
+
+            button,
+            input,
+            select,
+            textarea {
+                font-family: inherit;
+                font-size: 100%;
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+
+            textarea {
+                overflow: auto;
+            }
+
+            1. https://developer.mozilla.org/en-US/docs/Learn/Forms
+            2. https://developer.mozilla.org/en-US/docs/Learn/Forms/Styling_web_forms
+            3. https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Advanced_styling_effects
+
+34. styling tables
+    a) table-layout: fixed; 
+        Normally, table columns tend to be sized according to how much content they contain, 
+        which produces some strange results. With table-layout: fixed, you can size your columns 
+        according to the width of their headings
+
+    b) 
+        thead th:nth-child(1) {
+            width: 30%;
+        } 
+        This is why we've selected the four different headings with the thead th:nth-child(n) 
+        and given them set percentage widths. The entire column width follows the width of its heading
+
+    c) width: 100%;
+        meaning that the table will fill any container it is put in, and be nicely responsive
+    
+    d) border-collapse: collapse; 
+        the borders collapse down into one
+
+    e) border around the whole table
+
+    f) set some padding on the <th> and <td> elements — this gives the data items some space to breathe
+
+    g) By default, cells are given a text-align value of left, and headings are given a value of center, 
+        but generally it looks better to have the alignments set the same for both. 
+
+    h) caption-side: bottom; 
+        text-align: right;
+    
+    * tables can also be responsive given that there are lesser number of columns 
+
+
+    Text formatting
+35. font-family: "Trebuchet MS", Verdana, sans-serif;
+                    specific web safe font name, alternative font name, generic font / default font category; 
+
+
+    font-size: 
+        a) px (pixels): The number of pixels high you want the text to be
+        b) ems: 1 em is equal to the font size set on the parent element of the current element we 
+            are styling (more specifically, the width of a capital letter M contained inside the parent element
+        c) rems: These work just like em, except that 1 rem is equal to the font size set on the root element of the 
+            document (i.e. <html>), not the parent element.
+
+    default font size: 
+        the root element of the entire document — <html> — the standard font-size of which is set to 16px across browsers.
+
+    font-style: normal | italic | oblique; 
+    
+    font-weight: normal | bold | lighter | bolder | 100 - 900;
+
+    text-transform: none | uppercase | lowercase | capitalize | full-width;
+
+    text-decoration: none | underline | overline | line-through; 
+        e.g., text-decoration: line-through red wavy.
+
+    text-shadow: offset-x offset-y blur-radius color; 
+        e.g., text-shadow: 0px 4px 8px black;
+
+    text-align: left | right | center | justify; 
+
+    line-height: 10px | 1 rem | 1.6; 
+        With a unitless value, the font-size gets multiplied and results in the line-height
+        The recommended line height is around 1.5 – 2 (double spaced).
+
+    letter-spacing: length & size units; 
+    
+    word-spacing: length & size unit; 
+
+    word-wrap:break-word;
+
+    text-underline-position: 
+
+    text-indent: Specify how much horizontal space should be left 
+        before the beginning of the first line of the text content.
+
+    hyphens: Switch on and off hyphenation for supported languages.
+
+    text-align-last: Define how the last line of a block or a line, right before a forced line break, is aligned.
+
+    writing-mode: Define whether lines of text are laid out horizontally or vertically and the 
+        direction in which subsequent lines flow.
+
+    overflow-wrap: Specify whether or not the browser may break lines within words in order to prevent overflow.
+
+    text-overflow: Define how overflowed content that is not displayed is signaled to users.
+
+    word-break: Specify whether to break lines within words.
+
+    direction: Define the text direction.
+
+
+
+
+    List formatting 
+36. 
+    list-style-type: Sets the type of bullets to use for the list, 
+        for example, square or circle bullets for an unordered list, or numbers, letters, 
+        or roman numerals for an ordered list.
+            list-style-type: upper-roman;
+    
+    list-style-position: Sets whether the bullets, at the start of each item, 
+        appear inside or outside the lists.
+            list-style-position: outside | inside ;
+
+    list-style-image: Allows you to use a custom image for the bullet, 
+        rather than a simple square or circle.
+            list-style-image: url(star.svg);
+
+    if you have set list-style-image to an unordered list you can use background-* properties to 
+        control and style that list bullet image. 
+
+    
+    start an ordered list from a specific point 
+        <ol start="4">
+
+        <ol start="4" reversed>
+
+    The value attribute allows you to set your list items to specific numerical values
+        <li value="2">
+
+
+
+
+link formatting 
+37. An outline is similar to a border. The only difference is that a border takes
+     up space in the box and an outline doesn't; it just sits over the top of the background
+
+    a {}
+    a:link {}
+    a:visited {}
+    a:focus {}
+    a:hover {}
+    a:active {}
+
+    This order is important because link styles build on one another. 
+    For example, the styles in the first rule will apply to all the subsequent ones. 
+    When a link is activated, it's usually also hovered over. 
+    If you put these in the wrong order, and you're changing the same properties in each ruleset, 
+    things won't work as you expect. 
+    
+    To remember the order, you could try using a mnemonic like LoVe Fears HAte.
+
+
+
+
+web fonts / custom fonts 
+38. 
+    before developers were confined to chose between some web-safe fonts 
+        Arial, Courier New, Georgia, Times New Roman, Trebuchet MS, Verdana 
+
+    generic font types / default fonts
+        serif, sans-serif, monospace, cursive, fantasy 
+
+    
+    web/custom fonts: 
+        a. First of all, you have a @font-face ruleset at the start of the CSS, 
+            which specifies the font file(s) to download:
+        
+            @font-face {
+                font-family: "myFont";
+                src: url("myFont.woff2");
+            }
+        
+        b) use it 
+            html {
+                font-family: "myFont", "Bitstream Vera Serif", serif;
+            }
+
+
+Layout 
+
+    Normal flow 
+        block elements layed out in block direction from top to bottom 
+        inline elements layout out one after another in the inline direction from left to right 
+        as the order of appearance in the HTML
+
+    39. Overview 
+
+    The methods that can change how elements are laid out in CSS are:
+        a) display: block | inline | inline-block;
+            can change how elements behave in normal flow
+        
+        b) float: left | right | none | inherit; 
+
+        c) position: static | relative | absolute | fixed | sticky; 
+        
+        d) display: table;
+
+        e) multi column layout 
+            column-count: n; 
+
+    Everything in normal flow has a default value for display; i.e., a default way that elements are set to behave. 
+        For example, the fact that paragraphs in English display one below the other is because they are 
+        styled with display: block. 
+        If you create a link around some text inside a paragraph, that link remains inline with the rest of the text, 
+        and doesn't break onto a new line. This is because the <a> element is display: inline by default.
+
+        *** You can change this default display behavior. For example, the 
+            <li> element is display: block by default,
+        
+            The fact that you can change the value of display for any element means that you can 
+            pick HTML elements for their semantic meaning without being concerned about how they will look.
+    
+
+
+    Elements that are taken out off the normal flow 
+        1. floated elements, 
+        2 absolute, fixed positioned elements
+
+    *** You can position an element without removing it from the normal flow 
+            position: relative;
+            top: y; 
+            left: x; 
+        
+        whenever an elements is removed from the normal flow the sub sequent elements move up as if 
+        there was no element at that space.
+        
+
+    
+    Margin collapsing: 
+        If two vertically adjacent elements both have a margin set on them and their margins touch, 
+        the larger of the two margins remains and the smaller one disappears. This is known as margin 
+        collapsing. Collapsing margins is only relevant in the vertical direction
+    
+
+    40. flexbox 
+        when you set flex-direction to reverse, start and end of main axis also reverses
+
+
+    41. grid 
+            grid-template-areas: "header header header"
+                                "main main sidebar "
+                                "main main sidebar"
+                                " . footer footer "
+
+            grid-area: main;
+            grid-area: footer;
+        
+        by default spans 1 line
+            grid-row: 2; 
+            grid-column: 4;
+
+
+    42. floats 
+        Originally for floating images inside blocks of text, the float property became one of the 
+        most commonly used tools for creating multiple column layouts on webpages
+
+        The float property was introduced to allow web developers to implement layouts involving an 
+        image floating inside a column of text, with the text wrapping around the left or right of it.
+
+
+        how floating works ?
+            The element with the float set on it (the <div> element in this case) is taken out of the normal 
+            layout flow of the document and stuck to the left-hand side of its parent container (<body>, in this case). 
+            Any content that would come below the floated element in the normal layout flow will now wrap around 
+            it instead, filling up the space to the right-hand side of it as far up as the top of 
+            the floated element. There, it will stop.
+
+        While we can add a margin to the float to push the text away, we can't add a margin to the text 
+        to move it away from the float. This is because a floated element is taken out of normal 
+        flow and the boxes of the following items actually run behind the float
+
+        The line boxes of our following element have been shortened so the text runs around the float, 
+        but due to the float being removed from normal flow the box around the paragraph still remains full width.
+
+
+        clear 
+            We've seen that a float is removed from normal flow and that other elements will display beside it. 
+            If we want to stop the following element from moving up, we need to clear it; 
+            this is achieved with the clear property.
+
+        by default, the elements that comes after a floated element wraps around it if we want the following element to 
+        not do that we can clear floats,
+        leave the space for the floated element and render as normal flow 
+            
+            clear: left | right | both; 
+
+
+        Block Formatting Context: 
+            formatting context confined within a block. A block within which all formatting applies and that will not affect 
+            any surrounding elements in any way.
+
+        *** Lets say we have a parent container, the parent container contains two elements a div and a paragraph.
+            and there are also some other paragraphs comes after the "parent container"
+
+            Now lets imagine 
+            1. the div contained within the parent container is floated to left and has some height of X px;
+            2. the paragraph that comes right after it has some text which wraps around it. 
+            3. but the div's height is more than the p's height 
+            5. but still, as the first paragraph after the floated element defines the height of previous element for 
+                the second paragraph. The second paragraph moves up as it should do in normal flow which is expected. 
+                Floated elements are not in the normal flow but the 1st and 2nd paragraphs are
+
+                Also the tallest child element which is in the normal flow defines the height of the parent 
+                container 
+
+            6. Now to stop the 2nd paragraph from moving up and wrap around the floated element we can 
+                
+                create a BFC that wraps both the floated div element and the 1st paragraph. 
+                    a) so enclose both the floated div and the 1st paragraph in a container 
+                    b) set display: flow-root; to the wrapper container. 
+                    Now the tallest element defines the height and the container confines the formatting context.
+
+
+
+    43. positioning: static, relative, absolute, fixed, sticky
+            static: default;
+            
+            relative: keeps positioned element in the normal flow and also positions with respect 
+                to the position of that element in the normal flow
+            
+            absolute: taken off of the normal flow, and positions with respect to the closest parent element which 
+                is also positioned (as relative, absolute). 
+
+                If there is no parent container that is explicitly positioned, 
+                The result of this is the absolutely positioned element will be contained in the initial containing block. 
+                The initial containing block has the dimensions of the viewport and is also the block that contains 
+                the <html> element. In other words, the absolutely positioned element will be displayed outside of 
+                the <html> element and be positioned relative to the initial viewport.
+
+            
+            fixed: taken off of the normal flow and positions with respect to the viewport,
+
+            sticky: positions with respect to the viewport after a certain viewport offset is reached. 
+                    Sticky elements are "sticky" relative to the nearest ancestor with a "scrolling mechanism", 
+                    which is determined by its ancestors' position property.
+
+            position offset: 
+                top: 
+                bottom: 
+                right: 
+                left: 
+
+                takes px, rem, em, % values;
+
+            If two positioned element overlaps, which element comes on top ?
+            1. positioned elements win over non-positioned / (statically positioned) elements
+            2. positioned elements later in the source order win over positioned elements earlier in the source order.
+
+            z-index: 
+                Web pages also have a z-axis: an imaginary line that runs from the surface of your screen towards your face
+            
+
+    44. table layout 
+            display: table;          // on container
+            display: table-row;      // on row container 
+            display: table-cell;     // on individual elements 
+
+
+    45. multi column layout - Inherently responsive
+        column-count: n;    // specified number of columns 
+        or
+        column-width: 100px; // specified width of a column 
+        
+        column-gap: 10px; 
+        column-rule: 4px solid grey;
+
+        column-span: all | none | n; // You can cause an element to span across all the columns.
+
+        break-inside: avoid; // use on the element which you do not want to be broken
+
+        you can also use column shorthand to define maximum number of columns and max-width of column 
+
+
+
+
+    46. Responsive design 
+        1. flexible grid: 
+            flexbox, multicol, grid 
+        
+        2. responsive media: 
+            max-width: 100%; // also wrap media inside responsive container 
+            and also use picture elements with resolution switching and art direction. 
+            
+        3. responsive typography: 
+            rem, em 
+
+        4. viewport units 
+            vw, vh 
+            therefore you should never set font size using viewport units alone.
+
+        5. viewport meta tag 
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+        6. media query 
+            @media screen and (max-width: 75em) { } 
+            @supports (background-clip: text){}
+
+
+    47. Media query 
+        1. query type @media, @supports 
+        2. media types: all, screen, print
+        3. media condition: (max-width: 100px) 
+            a) viewport width: max-width, min-width, width
+            b) device orientation: @media (orientation: landscape);
+            c) if supports hover: @media (hover: hover) {} 
+            d) if a specific CSS feature is supported: @supports (background-clip: text){};
+
+        4. multiple condition: "or" 
+            separate media condition with comma (,) to denote or.
+
+        5. multiple condition: "and"
+            join multiple media conditions with "and"
+
+            @media screen and (min-width: 600px), screen and (orientation: landscape) {}
+
+        6. negate media query condition 
+            You can negate an entire media query by using the not operator.
+                @media not (min-width: 600px){}
+
+
+        why use em's in media query ?
+            We'll use ems, as this will mean that if the user has increased their text size, 
+            the breakpoint will happen at a similar line-length but wider viewport, than someone
+            with a smaller text size.
+
+
+    48. Legacy layout methods: floated layout 
+        
+
+    49. browser support fallback
+
+    50. box-shadow on the inside using the "inset" keyword 
+            box-shadow: inset 4px 10px rgba(0, 0, 0, .7);
+
+    51. apply filters on image 
+            filter: blur(10px);
+
+    52. apply filter on an element as a whole 
+            filter: drop-shadow(5px 5px 1px rgba(0,0,0,0.7);
+
+    53. background-bled-mode: CSS blend modes allow us to add blend modes to elements that specify 
+        a blending effect when two elements overlap — the final color shown for each pixel will be 
+        the result of a combination of the original pixel color, and that of the pixel in the layer underneath it.
+
+    54. mix-blend-mode: 
+
+    55. shape 
+            shape of an element on the outside 
+            shape-outside: polygon | circle | etc; 
+
+    56. background-clip: text; 
+        color: transparent;
+    
+*/
+
+
+/*
+# descendants
+
+1. all descendants: selects all descendants, no matter how deep the target 
+    container p {
+
+    }
+
+2. direct children: selects direct children elements 
+    container > p {
+
+    }
+
+
+# siblings 
+
+1. adjacent sibling: selects immediate next sibling element  
+    container + p {
+
+    }
+
+2. general sibling: selects all siblings no matter how far they are away from the target
+    container ~ p {
+
+    }
+
+*/
