@@ -45,18 +45,18 @@
                 
                 * Targeting an element selector — this is a selector that directly matches an HTML element name 
                 
-                * p,li {
+                * p, li {
                     color: red;
                 }
 
-                * The browser is adding some default styling to html elements to make it readable you can override that as well 
-                    with your custom css, e.g. to remove default bullet points from list items, 
+                * The browser is adding some default styling to HTML elements to make it readable you can override that as well 
+                    with your custom CSS, e.g. to remove default bullet points from list items, 
                     li {
                         list-style-type: bengali;
                     }
-                    all html element that has display type of list-item can be targetted and their style can be changed as above. 
+                    all HTML element that has a display type of list-item can be targeted and their style can be changed as above. 
                 
-                * select a subset of element without changing the other element of same type; in such case use class attribute.
+                * Select a subset of an element without changing the other element of the same type; in such case use class attribute.
                     
                     <li class="special">Item special</li>
 
@@ -64,15 +64,15 @@
                     .special{
                         color: red;
                     } 
-                    class selector starts with fullstp "."
+                    class selector starts with full stop "."
                     any element whose class attribute is set to value "special" will take effect of the above css rule. 
                 
-                * Select element more specifically, 
+                * Select an element more specifically, 
                     li.special{
                         color: red;
                     }
                     target any li element that has a class of special, 
-                    In this case any other element with class specials will be affected by above css rule.
+                    In this case, any other element with class specials will be affected by the above CSS rule.
                 
                 * It is sometimes best to bypass the element and refer to the class, unless you know that you want to create 
                     some special rules for one element alone, and perhaps want to make sure they are not applied to other things
@@ -83,17 +83,17 @@
                     }
                     select the em element which is(/are) nested inside (Descendant of) li.
 
-                * Adjacent sibling combinator, place a plus sign "+" between two selector, 
+                * Adjacent sibling combinator, place a plus sign "+" between two selectors, 
                     h1 + p {
                         font-weight: bold;
                     }
-                    styles the first paragraph that comes directly after a top level heading h1. 
+                    styles the first paragraph that comes directly after a top-level heading h1. 
                 
                 * Styling based on state, 
                     a:link , a:hover, a:visited {
                         
                     }
-                    link should always be underlined. 
+                    a link should always be underlined. 
                 
                 * Combining selector and combinator
                     /* selects any <span> that is inside a <p>, which is inside an <article>  */
@@ -116,9 +116,9 @@
 
             <h2> How CSS is structured </h2>
                 
-                * CSS resolves conflicting styling rules by two basic rule such as "The Cascading rule" and "The specificity rule"
+                * CSS resolves conflicting styling rules by two basic rules such as "The Cascading rule" and "The specificity rule"
 
-                * CSS styling rule that appear later in stylesheet replaces earlier conflicting styling rule;
+                * CSS styling rule that appears later in the stylesheet replaces earlier conflicting styling rule;
                     this is called "The Cascading rule"
                 
                 * CSS styling rule with a class selector will replace styling rules that are applied only with element selectors. 
@@ -127,12 +127,12 @@
                 * Basic structure, 
 
                     h1 {                                                                |selector   |
-                        color: blue;            | css declaration |                                 | CSS Rulesets/Rules
-                        font-weight: bold;      | css declaration | css declaration block           | e.g. h1 rule
-                        background-color:white; | css declaration |                                 | 
+                        color: blue;            | CSS declaration |                                 | CSS Rulesets/Rules
+                        font-weight: bold;      | CSS declaration | CSS declaration block           | e.g. h1 rule
+                        background-color:white; | CSS declaration |                                 | 
                     }                                                                               |
                 
-                * Avoid using inline css and only when neccessary use internal if possible or inline othewise
+                * Avoid using inline CSS and only when necessary use internal if possible or inline otherwise
                 
                 * The CSS engine calculates which declarations apply to every single element of a page.
 
@@ -145,9 +145,9 @@
                 *  In CSS (and other web standards), it has been agreed that US spelling is the standard where there 
                     is language variation or uncertainty. For example, colour should be spelled color, as colour will not work.
                 
-                * functions such as "calc()" can be used as a value to "width" property; simple maths can be performed using it. 
+                * functions such as "calc()" can be used as a value to the "width" property; simple maths can be performed using it. 
                 
-                * "transform" property also takes other functions as value such as "rotate(0.8turn)"
+                * "transform" property also takes other functions as values such as "rotate(0.8turn)"
 
                 * CSS @at-rules defines what CSS should perform and how it should behave. e.g, 
                     @include 'style2.css'
@@ -159,12 +159,12 @@
                     }
                 
                 * Shorthand properties set several values at once. Properties such as font, background, padding, 
-                    border, margin etc,
+                    border, margin, etc,
                 
                 In 4-value shorthands like padding and margin, the values are applied
                 in the order top, right, bottom, left (clockwise from the top). 
 
-                There are also other shorthand types, for example 2-value shorthands, which set padding/margin
+                There are also other shorthand types, for example, 2-value shorthands, which set padding/margin
                 for top/bottom, then left/right
 
                     - padding: 10px 15px 15px 5px;
@@ -186,12 +186,12 @@
                     background-attachment: fixed;
                 
                 * A value not specified in CSS shorthand reverts to its initial value. This means an omission 
-                    in CSS shorthand can override previously set values. Also any value that is invalid for a property 
-                    in a shorthand will be passed on to the next property and skipped property's value will be resetted to 
-                    their respective intial value.
+                    in CSS shorthand can override previously set values. Also, any value that is invalid for a property 
+                    in a shorthand will be passed on to the next property, and the skipped property's value will be reset to 
+                    its respective initial value.
                 * /* CSS comments */
-                * White spaces in CSS is also ignored by the browser. 
-                * Though property values can be separated by space but there should not be any space between property name. 
+                * White spaces in CSS are also ignored by the browser. 
+                * Though property values can be separated by space but there should not be any space between property names. 
 
 
 
@@ -201,13 +201,13 @@
                     1. Fetch the HTML.
                     2. Convert HTML to DOM.
                     3. Fetch all linked resources such as video, img, audio and CSS. Javascript is loaded later.
-                    4. Parse CSS and sort them in different buckets based on their selector types. Figure out which
-                        rules should be applied to which node in DOM and attaches style to them. (Render Tree)
+                    4. Parse CSS and sort them into different buckets based on their selector types. Figure out which
+                        rules should be applied to which node in DOM and attach style to them. (Render Tree)
                     5. The render tree is laid out in the structure it should appear in after the rules 
                         have been applied to it.
-                    6. The visual display is showed on the screen.
+                    6. The visual display is shown on the screen.
 
-                * Browser just ignores CSS declaration that is not understood and move on to next declaration.
+                * Browser just ignores CSS declaration that is not understood and moves on to the next declaration.
 
                 * Also if a selector is not valid in a list of selectors browser will just ignore the whole ruleset. 
 
@@ -215,17 +215,17 @@
 
             <h2>Cascade and Inheritance</h2>
                 
-                * Cascade: When two rules with same specificity are intend to apply to the same element then 
-                    rule that comes later while parsing and interpretation will be effective overriding the other
+                * Cascade: When two rules with the same specificity are intended to apply to the same element then 
+                    rule that comes later while parsing and interpretation will be effective in overriding the other
                     that came earlier
                 
                 * Inheritance: Some element inherits specified value that is set to their parent's element and some do not. 
 
-                * Specificity: In a situation where two conflicting rules with different selectors that applies 
-                    to the same element then the rule which has more specific selector will be effective.
+                * Specificity: In a situation where two conflicting rules with different selectors apply 
+                    to the same element then the rule which has a more specific selector will be effective.
                 
-                * Inline css (1000) > id selector (0100) > class, attribute and pseudo-class (0100) > 
-                    element and pseudo element  > parent element selector
+                * Inline CSS (1000) > id selector (0100) > class, attribute and pseudo-class (0010) > 
+                    element and pseudo-element  > parent element selector
 
                 * Not Inherited properties: width, margin, padding, border; 
                 
@@ -244,7 +244,7 @@
                         
                         The usage of the "initial value" depends on whether a property is inherited or not:
                             For inherited properties, the initial value is used (applied ?) on the root element only, 
-                            as long as no specified value is supplied and other child elements just inhertis, I suppose.
+                            as long as no specified value is supplied and other child elements just inherit, I suppose.
                             (ইনহেরিটেড প্রপারটিস এর ইনিশিয়াল ভ্যালুটা রুট ইলিমেন্টে সেট করা থাকে)
 
                             For non-inherited properties, the initial value is used on all elements,
@@ -257,7 +257,7 @@
                     - Unset: Resets the property to its natural value, which means that if the property 
                         is naturally inherited it acts like inherit, otherwise it acts like initial (CSS default value).
                     
-                    - Revert: Acts like unset in many cases, however will revert the property to the browser's default 
+                    - Revert: Acts like unset in many cases, however, will revert the property to the browser's default 
                         styling rather than the defaults applied to that property.
                 
                 * The universal selector (*), combinators (+, >, ~, ' '), and negation 
@@ -270,17 +270,17 @@
                 * It is recommended to use !important only when there is no other way. 
 
                 * A common practice is to define generic styles for the basic elements,
-                    and then create classes for those which are different
+                    and then create classes for those who are different
                     
 
 
             <h2> Selectors </h2>
 
-                * The element or elements which are selected by the selector are referred to as the subject of the selector.
+                * The element or elements that are selected by the selector are referred to as the subject of the selector.
 
                 * Selector list: if you need to apply the same style to multiple elements then you can list their selectors
-                    by comma ",". A white space is permitted to use before or after comma for better readablity.
-                    Note: if a selector in a selector list is invalid then the whole rullset is ignored.
+                    by comma ",". A white space is permitted to be used before or after commas for better readability.
+                    Note: if a selector in a selector list is invalid then the whole ruleset is ignored.
                 
                 * Selector types:
                     - Element/type/tag name e.g.,   h1 { }                          //  all h1 elements. 
@@ -298,20 +298,20 @@
                     - pseudo-element e.g.,          p:first-line                    //  always selects first-line of text inside an element in this case, p (paragraph).
                     
                     - Combinators
-                        this type of selectors combine other selectors in order to target elements, 
-                        - child combinator e.g.,    article > p                 // all paragraphs that are direct children of article element.
+                        this type of selector combines other selectors in order to target elements, 
+                        - child combinator e.g.,    article > p                 // all paragraphs that are direct children of the article element.
                     
                     - Universal selector: indicated by an asterisk (*). It selects everything in the document 
                         (or inside the parent element if it is being chained together with another element and a descendant combinator)
-                        often can be seen in "reset stylesheets" and to increase readability of other selectors. 
+                        often can be seen in "reset stylesheets" and to increase the readability of other selectors. 
 
-                    - more specific selection by chaining multiple type of selector
+                    - more specific selection by chaining multiple types of selector
                         .notebox.danger { color: blue; } // select element which has class notebox and danger. 
                         h1.special { font-weight: 400; } // select h1 element which has class special. 
                     
                     - Using the same ID multiple times in a document may appear to work for styling purposes, but don't do this. 
-                        It results in invalid code, and will cause strange behavior in many places
-                        and it is preferale in most cases to use class instead of an ID.
+                        It results in invalid code and will cause strange behavior in many places
+                        and it is preferable in most cases to use a class instead of an ID.
                     
                 * Attribute value selector and specifier, 
                     - Attribute selector                                        element[attribute] { }
@@ -329,25 +329,25 @@
                     e.g. they are the first element of their type, or they are being hovered over by the mouse pointer.
                     such as :first-child, :last-child, :only-child etc. 
                     
-                    - Some pseudo-class elements are called user-action or dynamic pseudo class elements 
-                        because those pseudo class beahaves in a way such that a class has been added to the elements at the 
-                        moment when user interacts with it, e.g., :hover, :active
+                    - Some pseudo-class elements are called user-action or dynamic pseudo-class elements 
+                        because those pseudo-class beahaves in a way such that a class has been added to the elements at the 
+                        the moment when a user interacts with it, e.g., :hover, :active
                     
-                    pseudo class selector keywords starts with a single colon, :pseudo-class
+                    pseudo-class selector keywords start with a single colon, pseudo-class
                 
                 * ::pseudo-element 
                     Similar to the pseudo-class but they act as if you had added a whole new HTML element into the markup, 
                     rather than applying a class to existing elements. Pseudo-elements start with a double colon ::.
-                    Also, browser supports pseudo elements with single colon for backwards compatibility. 
+                    Also, browser supports pseudo-elements with a single colon for backward compatibility. 
                 
                 * pseudo-class and pseudo-element can be chained together. 
-                    article p:first-child::first-line { } // first line of first paragraph inside article element. 
-                    p:first-child   => a paragraph element who is first child of its parent, 
+                    article p:first-child::first-line { } // first line of the first paragraph inside article element. 
+                    p:first-child   => a paragraph element who is the first child of its parent, 
                 
                 * Generating content with pseudo-element ::before and ::after along with content property
                     p::after{
                         content: "A string; can also be empty";
-                        dispaly: block; 
+                        display: block; 
                         width: 10px;
                         height: 10px; 
                         color: white;
@@ -355,15 +355,15 @@
                         border: 2px solid black; 
                     }
                 
-                    A more valid use of these pseudo-elements is to insert an icon, for example the little arrow added 
-                    in the example below, which is a visual indicator that we wouldn't want read out by a screenreader.
+                    A more valid use of these pseudo-elements is to insert an icon, for example, the little arrow added 
+                    in the example below, which is a visual indicator that we wouldn't want to be read out by a screen reader.
                 
                     We have set this to display: block in order that we can style it with a width and height.
 
                 * Reference: https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements
                 
                 * Combinators: 
-                    - Descendant combinator: denoted by a single space / " " ; selects all descendant elements.
+                    - Descendant combinator: denoted by a single space / " "; selects all descendant elements.
                         
                         combines two selectors such that elements matched by the second selector are selected if they have an ancestor 
                         (parent, parent's parent, parent's parent's parent, etc) element matching the first selector. Selectors that 
@@ -374,17 +374,17 @@
                         For example, ul > li { } // will select all li items that are direct children of ul but not any li elements 
                         that are nested inside direct children elements. 
 
-                    - Adjacent sibling combinator: denoted by a plus sign / " + "; selects all adjacent element that are very next to 
-                        preceding element. 
+                    - Adjacent sibling combinator: denoted by a plus sign / " + "; selects all adjacent elements that are very next to 
+                        the preceding element. 
                         p + img { } // select all img elements that are next to a paragraph.
                     
-                    - General sibling combinator: denoted by a tilde sign / " ~ " ; selects all sibling elements even if they are far away from their parent.
+                    - General sibling combinator: denoted by a tilde sign / " ~ "; selects all sibling elements even if they are far away from their parent.
                         If you want to select siblings of an element even if they are not directly adjacent, then you can use the 
                         general sibling combinator (~). To select all <img> elements that come anywhere after <p> elements, we'd do this:
                             p ~ img { } //
                     
-                    - All selectors can be chanied to specifically target an element but specific selectors are only useful if 
-                        you are absolutely sure that those css rules will not be applied to other rules. 
+                    - All selectors can be chained to specifically target an element but specific selectors are only useful if 
+                        you are absolutely sure that those CSS rules will not be applied to other rules. 
                 
 
 
@@ -418,16 +418,16 @@
                     The width and height properties will not apply.
                     Vertical padding, margins, and borders will apply but will not cause other inline boxes to move away from the box.
                     Horizontal padding, margins, and borders will apply and will cause other inline boxes to move away from the box.
-                    Some HTML elements, such as <a>, <span>, <em> and <strong> use inline as their outer display type by default.
+                    Some HTML elements, such as <a>, <span>, <em>, and <strong> use inline as their outer display type by default.
 
                 The type of box applied to an element is defined by display property values such as block and inline, 
-                and relates to the outer value of display.
+                and relates to the outer value of the display.
                 
                 - Outer display type dictates how an element is laid out in its parent container with respect to other sibling elements.
                 - inner display type, however, which dictates how elements inside that box are laid out. By default, the elements inside a box are 
                     laid out in normal flow, which means that they behave just like any other block and inline elements (as explained above).
                 
-                Outer display type values: block , inline. 
+                Outer display type values: block, inline. 
                 Inner display type values: flex, grid, 
 
                 -  If we set display: flex; on an element, the outer display type is block, but the inner display type is changed to flex. 
@@ -440,7 +440,7 @@
                         the box model.
 
 
-                    There are four parts to a css box, 
+                    There are four parts to a CSS box, 
                         - Content box: The area where your content is displayed, which can be sized using properties like width and height.
 
                         - Padding box: The padding sits around the content as white space; its size can be controlled using padding and 
@@ -453,7 +453,7 @@
                             this box and other elements. Its size can be controlled using margin and related properties.
                     
                             
-                    There are two types of box model, 
+                    There are two types of box models, 
 
                         - Standarad Box Model 
                             if you give a box a width and a height attribute, this defines the width and height of the content box. 
