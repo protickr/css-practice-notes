@@ -737,5 +737,488 @@ Layout
     container ~ p {
 
     }
+*/
+/*
+
+*** Summary Notes
+
+1. A value not specified in CSS shorthand reverts to its initial value. This means an omission 
+in CSS shorthand can override previously set values. Also, any value that is invalid for a property 
+in a shorthand will be passed on to the next property, and the skipped property's value will be reset to 
+its respective initial value.
+
+2. Also if a selector is not valid in a list of selectors browser will just ignore the whole ruleset
+
+3. Not Inherited properties: width, height, margin, padding, border;
+
+4. The universal selector (*), combinators (+, >, ~, ' '), and negation pseudo-class (:not) have no effect on specificity.
+
+5. p::before, p::after are children of p element at start or at the end of p element
+
+6. p span => selects all span inside the parent p element even if they are nested deep
+7. p > span => selects all span if they are directly nested inside p 
+
+8. box model, everything creates a box 
+    block,          => outer display type of block
+    inline,         => outer display type of inline 
+    inline-block,   => outer inline, inner block
+    flex,           => outer block, inner flex, every flex item's outer block
+    inline-flex,    => outer inline, ''
+    grid,           => outer block, inner grid, grid-items block
+    inline-grid     => outer inline, ''
+
+9. box-sizing: content box / border box
+
+10. margin + [(border + padding + content box)]
+
+11. when two margin collides bigger one stays and smaller one vanishes
+
+12.  Note: The margin is not counted towards the actual size of the box — sure, it affects the total space that 
+    the box will take up on the page, but only the space outside the box. The box's area stops at the border — 
+    it does not extend into the margin.
+
+13.  padding: 1em 2em 3em; // top 1em, right and left 2em, bottom 3em
+
+14. border v/s outline: outline does not take space it just sits over the box's border area.
+
+15. inline box do not respect width and height and does not pushes away other elements on top and bottom but 
+    does push away left and right content, block boxes do 
+    The size of Inline elements is just the size of their content. You can't set width or height on 
+    inline elements
+
+16. background
+    background-image: url();
+    By default, the large image is not scaled down to fit the box, so we only see a small corner of it, 
+    whereas the small image is tiled to fill the box.
+
+    background-size: 
+        cover   => crops image but keeps aspect ratio
+        contain => keeps aspect ratio but letterboxes black empty space in any sides if aspect ratio do no match container's dimension
+        fill,   => does not keep aspect ratio, stretches or shrinks image
+        10px 20px => width, height
+
+    background-position: 
+        top, right, bottom, left, center, top 10% , left 20 %, default is 0, 0
+        (specifies coordinates on the container)
+    
+    background-repeat: 
+        no-repeat, repeat, repeat-x, repeat-y 
+
+    background-attachment: scroll, local, fixed
+
+17. writing-mode and text-direction 
+
+18. overflow: visible, hidden, auto 
+    overflow-x, 
+    overflow-y
+
+19. if overflow happens in inline direction and a word is too big for the max-width of the container. 
+    overflow-wrap: anywhere, break, normal;
+
+20. px => Pixels
+       1px = 1/96th of 1in
+
+21. em 
+        as font property, relative to parent's font-size
+        as dimension, relative to element's font-size 
+
+22. with font-size we set font's height 
+
+23. <div></div> is a block level element which has intrinsic width as same as its parent
+    and intrinsic height is 0px if there is no content or it is determined by the content it contains. 
+    when all children of a div is floated or taken out of the normal flow the div becomes empty and its 
+    height collapses.
+
+24. margin and padding set in % (percentage) is calculated from it's parent's width even if we set vertical padding or margin
+
+25. min- and max- sizes
+    min-height: 150px;  
+            height will be minimum 150px, later it will increase if needed to avoid overflow.
+    
+    max-height: 140px; 
+            height will adjust with content until it reaches 140px after that it will not grow in height; 
+
+    max-width: 100%; 
+            its intrinsic width is smaller than its container, the image will not be  forced to stretch and become larger, 
+        thus preventing pixelation.
+
+    width: 100%;   
+        stretches or shrinks image to fit into a container. 
+
+26. making media / replaced elements responsive to the container
+    object-fit: cover; 
+        maintains aspect ratio but crops part of the image if needed to fit the container box. 
+
+    object-fit: contain; 
+        maintains aspect ratio but might result in letterboxing if box is smaller than the intrinsic size.
+
+    object-fit: fill;   
+        does not maintain the aspect ratio just fills the box
+
+27. in grid or flex container img element aligned to the start of the container cell by default, unlike other elements that
+    stretches to fill up the whole container
+
+28. normalize form input elements first then style them 
+
+29. responsive table 
+        1. table-layout: fixed;
+        2. set column's width in % (percentage)
+        3. The entire column width follows the width of its heading. 
+        4. border-collapse: collapse;
+        5. thead th:nth-child(odd) { } 
+
+30. fonts 
+        web-safe: Arial, Courier New, Georgia, Times New Roman, Trebuchet MS, Verdana. 
+        generic: serif, sans-serif, monospace, cursive, and fantasy.
+
+        font-family: "My Custom Font", Arial, serif;
+        fon-size: use rem unit;
+
+31. text-decoration, text-transform, font-style, text-shadow, text-align, line-height: 1.5 ~ 2, letter-spacing, word-spacing
+
+32. list-style-type, list-style-image, list-style-position, list-style, 
+
+33. Link styling
+    a:link, a:visited {}
+    a:focus, a:hover{}
+    a:active {}
+
+34. li is a block element.
+
+35. include custom font 
+    @font-face {    
+        font-family: "myfont"
+        src: url("myfont.woff2");
+    }
+
+
+36. float 
+        left    => 
+        right   => 
+    takes the element out of the normal flow (they are not considered when calculating parent's height)
+    and following elements just wraps around the floated element
+
+37. clear-fix hack and block formatting context
+    stops following element from wrapping up the floated element 
+    
+    1. display: flow-root; 
+    or 
+    2. container::after {
+        content: "";
+        clear: both;
+        display: table;
+        // display: block;
+    }
+
+    3. overflow: auto;
+        any value other than visible or clip 
+
+    block formatting context which is like a mini layout inside your webpage where all enclosed elements 
+    will be contained within it
+
+
+38. position: 
+    static (default)    => 
+    relative            => relative to original position of the element in the normal flow, keeps element in the normal flow
+    absolute            => relative to any parent element which has a specified "position" property value, takes element out 
+                            of the normal flow 
+    fixed               => relative to the viewport, takes element out of the normal flow 
+
+    sticky              => It allows a positioned element to act like it's relatively positioned until it's scrolled to a certain 
+                            threshold (e.g., 10px from the top of the viewport), after which it becomes fixed., takes element 
+                            out of the normal flow. 
+
+    // specify offset for positioned element
+    top: 
+    right: 
+    bottom: 
+    left: 
+
+39. multi column layout 
+    column-count, column-width, column-rule, column-gap 
+
+    avoid fragmented box/block across columns
+        break-inside: avoid; 
+        page-break-inside: avoid;
+
+40. z-index 
+    only accepts unit less index value 
+    all positioned elements other than static and relative, flex-items and grid items creates a stacking contexts 
+    
+    z-index will not work on any element that has no position specified or not a flex or grid item.
+
+41. responsive web design 
+    0. typography / rem unit 
+    1. fluid grid 
+    2. fluid image / media 
+    3. media query 
+
+42. stop device from lying about their intrinsic device width 
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+43. @media condition and condition  [and]
+    @media condition, condition     [or]
+    @media not condition            [not]
+
+    use em as dimension specifier on media queries 
+
+44. img is an inline element 
+
+45. In CSS, ::after creates a pseudo-element that is the last child of the selected element.
+    It is inline by default. The pseudo-elements generated by ::before and ::after are contained by the element's 
+    formatting box, and thus don't apply to replaced elements such as <img>, or to <br> elements.
+
+46. BEM (Block Element Modifier) syntax for class naming
+        1. A block should be an independent component of the UI and it should be re-usable
+        2. An element is kind of build block of a component, it does not have meaning of its own.
+        3. A modifier is just a css ruleset declaration that modifies either element or block.
+
+47. SASS Syntatically Awesome Style Sheets 
+    
+    * variables
+        $variable_name / $variable-name: value;
+    
+    * Nesting 
+        .parent {
+
+            & child {}
+        }
+
+        ~ .parent child {}
+        
+    * Operators like +, -, *, math.div()
+
+    * partials and imports 
+        components/_button.scss 
+
+        scss/main.scss 
+            @import "components/button";
+        
+    * mixins 
+
+        // clearfix mixin
+            @mixin clearfix {
+                &::after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+            }
+        
+            .row{
+                @include clearfix;
+            }
+    
+        // media query manager
+            @mixin respond($breakpoint) {
+                @if($breakpoint == "phone"){
+                    @media only screen and (max-width: 37.5em){ @content; }
+                }
+            }
+
+            @include respond(tab-land){ 
+                //width <= 1200px or 75em, we want 1rem == 9px so, 9 / 16 * 100 = 56.25%; 
+                font-size: 56.25%;
+            }
+
+
+    * functions 
+        @function fibonacci($n) {
+            @return 1;
+        }
+    
+    * extends/inheritance 
+        %btn-placeholder  {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 100px;
+            text-align: center;
+            
+            @include style-link-text($color-text-light);
+        }
+
+        @extend %btn-placeholder;
+
+    * control directives 
+        @if, @for, @else etc
+
+    * @mixin: a re-usable piece of code 
+        @include mixin, copies mixin's codes into the rule set where @include is used
+        @extend: %btn-placeholder, copies the selector of the rule set at which @extend is called
+
+
+48. advanced properties 
+
+    clip-path: polygon();
+    transform: scale(), skew(), translate(), translatex(), translatey(), 
+
+    transition: property-name duration timing-function delay;
+
+    animation: name duration timing-function delay;
+
+    animation-fill-mode: none, forwards, backwards;
+
+    background-clip: text; 
+
+    outline: 
+    outline-offset: 
+    
+    background-blend-mode: 
+    
+
+    box-decoration-break: clone;
+
+    fill: currentColor; 
+    font-size: 0; 
+    line-height: 0; 
+
+    mask-image: 
+    mask-size: cover;
+
+    background-position: 100%; 
+        100% to the right and y axis defaults to 50%;
+
+    transform-origin: center;
+
+    background-origin: 
+
+    backdrop-filter: 
+
+    filter: brighten(90%), blur(10px)
+
+    shape-outside: circle();
+
+    display: table-cell; 
+    display: table-row;
+    display: table;
+    vertical-align: middle;
+
+
+49. advanced selectors
+
+    .btn:hover::after 
+        when btn element is hovered then apply styles to ::after child element
+
+    input:placeholder-show 
+    input::placeholder 
+
+    :not(:last-child) { }
+
+
+49. Responsive image 
+        1. display img as block element 
+        2. Flexible images: width value set with percentages so image stays fluid.
+        3. object-fit: cover;
+
+
+50. An inline element inside a block parent container behaves just like text. so you can use 
+    text-align: center; 
+    // to center the element inside the container
+
+
+51. Staged animation can be created with 
+        transition property and multiple transition value separated by commas and transition delay. 
+
+    transition does not work on background images and also for gradients
+
+52. Gradient always forms perpendicular to gradient line
+
+53. always put the prefixed version before the original version of a property
+
+54. custom properties does not work with media queries
+
+55. flex 
+    
+    * each flex row is a new flex row when it comes to align them in the main axis 
+        justify-content to align them on the main axis affect them individually
+    
+    * align-content 
+        align each flex row on the cross axis (top to bottom)
+
+    
+    display: flex 
+    flex-direction: row | row-reverse | column | column-reverse; 
+    flex-wrap: nowrap | wrap | wrap-reverse 
+
+    align-items: stretch | start | end | baseline | flex-start | flex-end | center;
+        // aligns flex items (in y axis, top to bottom)
+
+    justify-content: start | end | flex-start | flex-end | center | space-between | space-around | space-evenly; 
+        // aligns flex items in a flex row (in x axis, left to right)
+
+    on flex items
+        align-self: 
+        justify-self: 
+
+        flex: 1 1 auto; 
+        flex-grow: 
+        flex-shrink: 
+        flex-basis: 
+        order: 
+
+    initial value
+        flex: 0 1 auto;
+
+
+56. grid 
+
+    display: grid; 
+    grid-template-columns: 
+    grid-template-rows: 
+    grid-template-areas: 
+
+    grid-auto-flow: row dense; 
+    grid-auto-rows: 
+    grid-auto-columns:
+
+    grid-column-gap: 
+    grid-row-gap: 
+    grid-gap: 
+
+    align-items: 
+        in y axis, top to bottom 
+
+    justify-items: 
+        in x axis, left to right
+
+    aligns entire grid in available container's space
+        align-content: 
+        justify-content: 
+
+    on grid items
+        grid-row: 
+        or, 
+        grid-row-start: 
+        grid-row-end: 
+
+        grid-column: 1 / 3
+
+        grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+
+        grid-column: 1 / span 2;
+
+    *** Naming grid lines
+        1. grid row naming
+        grid-template-rows: [ header-start ] 150px [ header-end box-start] 200px [box-end main-start] 400px [main-end footer-start] 200px [footer-end];
+
+        2. grid column naming
+        grid-template-columns: repeat( 3, [col-start] 1fr [cold-end] ) 200px [grid-end];
+
+    * repeat(3, [col-start] 1fr [col-end]) 
+        will create 3 columns tracks of 1fr width but for naming these grid lines the col-start and 
+        col-end will conflict with each other so, CSS will automatically create a named set of grid lines to use that 
+        naming we can use, 
+        grid-column: col-start 1 / col-end 3;
+
+    * repeat(), minmax(base, max), fr, max-content, min-content, auto-fill, auto-fit
+
+
+57. if you want to center an image in a grid area in the vertical direction
+    align-items: center;
+
+58. advised order of applying media queries
+        base + typography > general layout > grid > page layout > components
+
+59. mobile devices are always 2x screens, 2 device pixels = 1 CSS pixel
 
 */
