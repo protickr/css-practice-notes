@@ -1064,7 +1064,6 @@ its respective initial value.
     outline-offset: 
     
     background-blend-mode: 
-    
 
     box-decoration-break: clone;
 
@@ -1099,7 +1098,7 @@ its respective initial value.
     .btn:hover::after 
         when btn element is hovered then apply styles to ::after child element
 
-    input:placeholder-show 
+    input:placeholder-shown
     input::placeholder 
 
     :not(:last-child) { }
